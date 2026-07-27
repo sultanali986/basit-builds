@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basit Builds</title>
+    <style>
+        :root {
+            --bg-dark: #090a0f;
+            --card-bg: rgba(18, 20, 32, 0.85);
+            --card-border: rgba(212, 175, 55, 0.25);
+            --primary-gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #aa8c2c;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --header-bg: rgba(9, 10, 15, 0.92);
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(212, 175, 55, 0.3);
+            --primary-gold: #b8860b;
+            --gold-light: #8b6508;
+            --gold-dark: #daa520;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --header-bg: rgba(248, 250, 252, 0.92);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 50%),
+                              radial-gradient(circle at 100% 100%, rgba(26,29,46,0.2) 0%, transparent 50%);
+            min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* Fixed Instant Marquee Bar */
+        .marquee-container {
+            background: linear-gradient(90deg, #090a0f, var(--primary-gold), #090a0f);
+            color: #000;
+            padding: 8px 0;
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 2px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2500;
+            box-shadow: 0 4px 30px rgba(212,175,55,0.3);
+        }
+
+        .marquee-text {
+            display: inline-block;
+            will-change: transform;
+            animation: marqueeAnim 14s linear infinite;
+        }
+
+        @keyframes marqueeAnim {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
+        }
+
+        /* Header with Left Side Logo */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5%;
+            position: sticky;
+            top: 34px;
+            z-index: 2000;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-title h1 {
+            font-size: 15px;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .header-btns {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .theme-btn, .menu-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-main);
+            transition: 0.3s;
+        }
+        .theme-btn:hover, .menu-btn:hover { border-color: var(--primary-gold); transform: scale(1.05); }
+
+        /* Side Drawer Menu */
+        .drawer-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+            z-index: 3000; opacity: 0; pointer-events: none; transition: 0.3s ease;
+        }
+        .drawer-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .side-drawer {
+            position: fixed; top: 0; right: -320px; width: 310px; height: 100vh;
+            background: var(--bg-dark); border-left: 1px solid var(--card-border);
+            z-index: 3500; display: flex; flex-direction: column; padding: 30px 22px; gap: 16px;
+            transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: -20px 0 50px rgba(0,0,0,0.8);
+            overflow-y: auto;
+        }
+        .side-drawer.active { right: 0; }
+        .drawer-close { align-self: flex-end; font-size: 26px; cursor: pointer; color: var(--primary-gold); font-weight: bold; }
+        .side-drawer a, .side-drawer button {
+            text-decoration: none; color: var(--text-main); font-size: 14px; font-weight: 700;
+            background: none; border: none; text-align: left; border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px; cursor: pointer; transition: 0.2s;
+        }
+        .side-drawer a:hover, .side-drawer button:hover { color: var(--primary-gold); padding-left: 6px; }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 55px 20px 25px 20px;
+        }
+
+        .hero-section h2 {
+            font-size: 30px;
+            margin-bottom: 12px;
+            line-height: 1.25;
+            background: linear-gradient(135deg, var(--text-main), var(--primary-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 900;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto 22px auto;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 300px;
+            margin: 0 auto 20px auto;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+            transition: 0.3s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary:hover { transform: scale(1.03); opacity: 0.95; }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-secondary:hover { border-color: var(--primary-gold); transform: scale(1.03); }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        .hero-stats div span { display: block; color: var(--text-main); font-weight: 900; font-size: 14px; }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 60px 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 30px;
+            margin-top: 40px;
+        }
+
+        .section-header h2 { font-size: 26px; color: var(--text-main); margin-bottom: 6px; font-weight: 900; }
+        .section-header p { font-size: 13.5px; color: var(--text-muted); }
+
+        /* Occasions Grid */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 18px;
+            margin-bottom: 40px;
+        }
+
+        .cat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px 20px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(15px);
+        }
+
+        .cat-card:hover {
+            border-color: var(--primary-gold);
+            transform: translateY(-5px);
+            background: rgba(212, 175, 55, 0.05);
+            box-shadow: 0 20px 45px rgba(212, 175, 55, 0.2);
+        }
+
+        .cat-card.exclusive-card {
+            border: 2px solid var(--primary-gold);
+            box-shadow: 0 0 25px rgba(212,175,55,0.15);
+        }
+
+        .card-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cat-emoji { font-size: 34px; }
+        .exclusive-badge {
+            background: var(--primary-gold);
+            color: #000;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .cat-card h3 { font-size: 16px; color: var(--text-main); font-weight: 900; }
+        .cat-link { font-size: 12.5px; color: var(--text-muted); font-weight: 700; transition: 0.2s; }
+        .cat-card:hover .cat-link { color: var(--primary-gold); padding-left: 4px; }
+
+        /* Testimonials Ticker */
+        .testimonials-ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            padding: 10px 0;
+            margin-bottom: 40px;
+        }
+        .testimonials-ticker-wrap::before, .testimonials-ticker-wrap::after {
+            content: ""; position: absolute; top: 0; width: 80px; height: 100%; z-index: 2; pointer-events: none;
+        }
+        .testimonials-ticker-wrap::before { left: 0; background: linear-gradient(to right, var(--bg-dark), transparent); }
+        .testimonials-ticker-wrap::after { right: 0; background: linear-gradient(to left, var(--bg-dark), transparent); }
+
+        .testimonials-track {
+            display: flex;
+            gap: 20px;
+            width: max-content;
+            animation: scrollTicker 30s linear infinite;
+        }
+        .testimonials-track:hover { animation-play-state: paused; }
+        @keyframes scrollTicker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 18px;
+            padding: 20px;
+            width: 300px;
+            backdrop-filter: blur(15px);
+            flex-shrink: 0;
+        }
+
+        .client-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .client-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--gold-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #000;
+            font-size: 13px;
+        }
+
+        .client-name { font-size: 14px; font-weight: 900; color: var(--text-main); }
+        .client-stars { color: #fbbf24; font-size: 12px; }
+        .client-text { font-size: 13px; color: var(--text-muted); font-style: italic; }
+
+        /* Payments Grid */
+        .payments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 14px;
+        }
+
+        .pay-card {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 18px 10px; text-align: center;
+            color: var(--text-main); font-weight: 700;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            transition: 0.3s; cursor: pointer;
+        }
+        .pay-card:hover { border-color: var(--primary-gold); transform: translateY(-4px); }
+        
+        .pay-icon-box {
+            width: 52px; height: 52px; background: #ffffff; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #111;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            overflow: hidden;
+            padding: 6px;
+        }
+        
+        .pay-icon-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .pay-badge-text {
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+        }
+
+        /* MODAL FOR PACKAGES & PAYMENTS */
+        .modal-wrap {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.88); backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 4000; opacity: 0; pointer-events: none; transition: 0.35s ease;
+            padding: 20px;
+        }
+        .modal-wrap.active { opacity: 1; pointer-events: auto; }
+
+        .modal-inner {
+            background: var(--bg-dark); border: 2px solid var(--primary-gold);
+            width: 100%; max-width: 950px; max-height: 85vh;
+            border-radius: 24px; padding: 30px; position: relative;
+            overflow-y: auto; box-shadow: 0 30px 80px rgba(0,0,0,0.85);
+            transform: scale(0.92); transition: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-wrap.active .modal-inner { transform: scale(1); }
+
+        .modal-close-btn {
+            position: absolute; top: 16px; right: 16px;
+            background: rgba(255,255,255,0.06); border: 1px solid var(--card-border);
+            color: var(--text-main); width: 36px; height: 36px; border-radius: 50%;
+            font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; z-index: 10;
+        }
+        .modal-close-btn:hover { background: #ef4444; color: #fff; transform: rotate(90deg); }
+
+        .modal-heading { text-align: center; margin-bottom: 20px; }
+        .modal-heading h2 { font-size: 24px; color: var(--text-main); font-weight: 900; margin-bottom: 4px; }
+        .modal-heading p { font-size: 13px; color: var(--text-muted); }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .package-box {
+            background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: 16px; padding: 20px; position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: 0.3s;
+        }
+        .package-box:hover { border-color: var(--primary-gold); transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
+        .package-box.highlight { border-color: var(--primary-gold); box-shadow: 0 0 25px rgba(212,175,55,0.2); }
+
+        .pkg-tag {
+            position: absolute; top: 12px; right: 12px;
+            background: var(--primary-gold); color: #000;
+            font-size: 9px; font-weight: 900; padding: 3px 10px;
+            border-radius: 20px; text-transform: uppercase;
+        }
+
+        .pkg-title { font-size: 16px; font-weight: 900; color: var(--text-main); margin-bottom: 4px; }
+        .pkg-price { font-size: 20px; font-weight: 900; color: var(--primary-gold); margin-bottom: 12px; }
+        .pkg-price span { text-decoration: line-through; color: var(--text-muted); font-size: 11px; margin-left: 6px; font-weight: normal; }
+
+        .pkg-features { list-style: none; margin-bottom: 16px; }
+        .pkg-features li {
+            font-size: 12px; color: var(--text-muted); margin-bottom: 5px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .pkg-features li::before { content: "✓"; color: var(--primary-gold); font-weight: bold; }
+
+        .order-btn {
+            display: block; text-align: center;
+            background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
+            color: #000; padding: 10px; border-radius: 10px;
+            text-decoration: none; font-weight: 900; font-size: 12px;
+            text-transform: uppercase; letter-spacing: 0.8px;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.3); transition: 0.3s; cursor: pointer; border: none; width: 100%;
+        }
+        .order-btn:hover { opacity: 0.95; transform: scale(1.02); }
+
+        /* Floating WhatsApp Chat Button */
+        .chat-float {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #25d366; color: #fff; width: 56px; height: 56px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 25px rgba(37,211,102,0.5);
+            z-index: 1000; text-decoration: none; transition: transform 0.3s;
+            cursor: pointer; border: none;
+        }
+        .chat-float:hover { transform: scale(1.1) rotate(8deg); }
+        .chat-float svg { width: 30px; height: 30px; fill: #ffffff; }
+
+        .chat-popup {
+            position: fixed; bottom: 90px; right: 20px; width: 310px;
+            background: var(--bg-dark); border: 1.5px solid var(--primary-gold);
+            border-radius: 18px; box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            z-index: 2500; display: none; flex-direction: column; overflow: hidden;
+        }
+        .chat-popup.active { display: flex; }
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-gold), var(--gold-dark));
+            color: #000; padding: 12px; font-weight: 900; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px;
+        }
+        .chat-body { padding: 14px; font-size: 13px; color: var(--text-muted); display: flex; flex-direction: column; gap: 10px; }
+        .chat-msg { background: var(--card-bg); border: 1px solid var(--card-border); padding: 8px 12px; border-radius: 10px; color: var(--text-main); }
+        .chat-input-area { padding: 10px; border-top: 1px solid var(--card-border); display: flex; gap: 8px; }
+        .chat-input-area input { flex: 1; background: var(--card-bg); border: 1px solid var(--card-border); padding: 7px 10px; border-radius: 8px; color: var(--text-main); font-size: 12.5px; outline: none; }
+        .chat-input-area button { background: var(--primary-gold); color: #000; border: none; padding: 7px 12px; border-radius: 8px; font-weight: 900; cursor: pointer; font-size: 12.5px; }
+
+        /* Footer */
+        footer {
+            background: #050508; border-top: 1px solid var(--card-border);
+            padding: 40px 20px; color: var(--text-muted); font-size: 13px;
+        }
+        .footer-content-grid {
+            max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 25px;
+        }
+        .footer-col h4 { color: var(--text-main); font-size: 15px; margin-bottom: 12px; font-weight: 900; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .footer-col ul li a, .footer-col ul li button { background: none; border: none; color: var(--text-muted); text-decoration: none; cursor: pointer; font-size: 13px; text-align: left; transition: 0.2s; }
+        .footer-col ul li a:hover, .footer-col ul li button:hover { color: var(--primary-gold); }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; font-size: 11.5px; color: rgba(255,255,255,0.4); }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Marquee -->
+    <div class="marquee-container">
+        <div class="marquee-text" id="marqueeText">
+            ✨ WELCOME TO BASIT BUILDS ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ✨ WELCOME TO BASIT BUILDS ✨ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+    </div>
+
+    <!-- Header with Left Side Logo -->
+    <header>
+        <div class="logo-group">
+            <div class="pay-icon-box" style="width: 38px; height: 38px; border-radius: 50%; padding: 0;">
+                <img src="https://i.ibb.co/0VdJrMFC/logo.jpg" alt="Basit Builds Logo" style="border-radius: 50%;">
+            </div>
+            <div class="logo-title">
+                <h1>BASIT BUILDS</h1>
+            </div>
+        </div>
+        <div class="header-btns">
+            <button class="theme-btn" id="themeBtn" aria-label="Toggle Theme">☀️</button>
+            <button class="menu-btn" id="menuBtn" aria-label="Open Menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Side Menu Drawer -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+    <div class="side-drawer" id="sideDrawer">
+        <span class="drawer-close" onclick="closeDrawer()">&times;</span>
+        <a href="#occasions" onclick="closeDrawer()">✨ Top Occasions</a>
+        <a href="#packages" onclick="closeDrawer()">🎁 Packages</a>
+        <a href="#studio" onclick="closeDrawer()">💼 Client Reviews</a>
+        <a href="#payments" onclick="closeDrawer()">💳 Secure Payments</a>
+        <button onclick="openPolicyModal('about')">👑 About Basit Builds</button>
+        <button onclick="openPolicyModal('privacy')">🔒 Privacy & Security</button>
+        <button onclick="openPolicyModal('disclaimer')">⚖️ Legal Disclaimer</button>
+        <button onclick="openWhatsAppChoice('Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.')" style="background:var(--primary-gold); color:#000; text-align:center; padding:10px; border-radius:10px; font-weight:900; margin-top:6px;">Live Support WhatsApp</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h2>Welcome to Basit Builds</h2>
+        <p>Crafting breathtaking occasion web pages, custom portfolios, and digital experiences with supreme elegance.</p>
+        
+        <div class="hero-cta-group">
+            <a href="#occasions" class="btn-primary">Browse Occasions</a>
+            <button onclick="openWhatsAppChoice('Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.')" class="btn-secondary">Contact Live Support</button>
+        </div>
+
+        <div class="hero-stats">
+            <div><span class="client-stars">★★★★★ 5.0/5</span></div>
+            <div><span>400+ projects</span></div>
+            <div><span>Basit Builds</span></div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="main-container">
+
+        <!-- Occasions Section -->
+        <div class="section-header" id="occasions">
+            <h2>Top Occasions & Custom Categories</h2>
+            <p>Explore packages tailored for your special celebrations.</p>
+        </div>
+
+        <div class="categories-grid">
+            <div class="cat-card" onclick="openPackages('birthday')">
+                <div class="card-top-row"><span class="cat-emoji">🎂</span></div>
+                <h3>Birthday Web Pages</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card" onclick="openPackages('anniversary')">
+                <div class="card-top-row"><span class="cat-emoji">💍</span></div>
+                <h3>Anniversary Hubs</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card" onclick="openPackages('sad')">
+                <div class="card-top-row"><span class="cat-emoji">🥀</span></div>
+                <h3>Sad & Memory Pages</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card" onclick="openPackages('mothersday')">
+                <div class="card-top-row"><span class="cat-emoji">💐</span></div>
+                <h3>Mother's Day</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card" onclick="openPackages('fathersday')">
+                <div class="card-top-row"><span class="cat-emoji">👔</span></div>
+                <h3>Father's Day</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card" onclick="openPackages('valentine')">
+                <div class="card-top-row"><span class="cat-emoji">💖</span></div>
+                <h3>Valentine's & Love</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card" onclick="openPackages('eid')">
+                <div class="card-top-row"><span class="cat-emoji">🌙</span></div>
+                <h3>Eid & Festive</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+            <div class="cat-card exclusive-card" onclick="openPackages('business')">
+                <div class="card-top-row"><span class="cat-emoji">🏢</span><span class="exclusive-badge">CUSTOM BUILDS</span></div>
+                <h3>Business & Custom Build</h3>
+                <span class="cat-link">View packages →</span>
+            </div>
+        </div>
+
+        <div id="packages"></div>
+
+        <!-- Testimonials Section -->
+        <div class="section-header" id="studio">
+            <h2>Trusted by Clients</h2>
+            <p>Real feedback from valued customers.</p>
+        </div>
+
+        <div class="testimonials-ticker-wrap">
+            <div class="testimonials-track" id="testimonialsTrack"></div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="section-header" id="payments">
+            <h2>Secure Payment Methods</h2>
+            <p>Click on an active wallet to deposit and verify payment.</p>
+        </div>
+
+        <div class="payments-grid">
+            <div class="pay-card" onclick="openPaymentPortal('JazzCash', '03030293297', 'Farzana mai', 'https://i.ibb.co/sdJNTQPM/Jazzcash.jpg')">
+                <div class="pay-icon-box"><img src="https://i.ibb.co/sdJNTQPM/Jazzcash.jpg" alt="JazzCash"></div>
+                <span class="pay-badge-text">JazzCash</span>
+            </div>
+            <div class="pay-card" onclick="openPaymentPortal('Upiasa', '03337358476', 'NIAZ AHMAD', 'https://i.ibb.co/pjDy0rm7/Upiasa.jpg')">
+                <div class="pay-icon-box"><img src="https://i.ibb.co/pjDy0rm7/Upiasa.jpg" alt="Upiasa"></div>
+                <span class="pay-badge-text">Upiasa</span>
+            </div>
+            <div class="pay-card" onclick="openComingSoonModal('EasyPaisa')">
+                <div class="pay-icon-box"><img src="https://i.ibb.co/rKgZynTF/Easypaisa.jpg" alt="EasyPaisa"></div>
+                <span class="pay-badge-text">EasyPaisa</span>
+            </div>
+            <div class="pay-card" onclick="openPaymentPortal('SadaPay', '03061853297', 'NIAZ AHMAD', 'https://i.ibb.co/LDrvJZy8/Sadapay.jpg')">
+                <div class="pay-icon-box"><img src="https://i.ibb.co/LDrvJZy8/Sadapay.jpg" alt="SadaPay"></div>
+                <span class="pay-badge-text">SadaPay</span>
+            </div>
+            <div class="pay-card" onclick="openComingSoonModal('Bank / Meezan')">
+                <div class="pay-icon-box"><img src="https://i.ibb.co/nNVRgkjd/Bank.jpg" alt="Bank"></div>
+                <span class="pay-badge-text">Meezan / Bank</span>
+            </div>
+            <div class="pay-card" onclick="openComingSoonModal('Crypto / USDT')">
+                <div class="pay-icon-box">🪙</div>
+                <span class="pay-badge-text">Crypto / USDT</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PACKAGES MODAL -->
+    <div class="modal-wrap" id="packagesModal" onclick="handleModalOutside(event)">
+        <div class="modal-inner" id="modalContentBox"></div>
+    </div>
+
+    <!-- Floating WhatsApp Chat Button -->
+    <button onclick="openWhatsAppChoice('Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.')" class="chat-float" aria-label="WhatsApp Chat">
+        <svg viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.124-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+    </button>
+    
+    <div class="chat-popup" id="chatPopup">
+        <div class="chat-header">
+            <span>Basit Builds Support</span>
+            <span style="cursor:pointer; font-size:18px;" onclick="toggleChat()">&times;</span>
+        </div>
+        <div class="chat-body">
+            <div class="chat-msg">Welcome! Choose a WhatsApp number to start chatting:</div>
+            <button onclick="openWhatsAppChat('923061853297', 'Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.')" style="background:#25d366; color:#fff; border:none; padding:8px; border-radius:8px; font-weight:900; cursor:pointer; font-size:12px;">WhatsApp Business (+923061853297)</button>
+            <button onclick="openWhatsAppChat('923337358476', 'Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.')" style="background:var(--card-bg); border:1px solid var(--primary-gold); color:var(--text-main); padding:8px; border-radius:8px; font-weight:900; cursor:pointer; font-size:12px;">Simple WhatsApp (+923337358476)</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type message..." />
+            <button onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content-grid">
+            <div class="footer-col">
+                <h4>Basit Builds</h4>
+                <p style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6;">
+                    Professional web development agency crafting stunning occasion pages and business solutions.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Solutions & Occasions</h4>
+                <ul>
+                    <li><button onclick="openPackages('birthday')">Birthday Web Pages</button></li>
+                    <li><button onclick="openPackages('anniversary')">Anniversary Hubs</button></li>
+                    <li><button onclick="openPackages('sad')">Sad & Memory Pages</button></li>
+                    <li><button onclick="openPackages('mothersday')">Mother's Day Pages</button></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Company & Legal</h4>
+                <ul>
+                    <li><button onclick="openPolicyModal('about')">👑 About Basit Builds</button></li>
+                    <li><button onclick="openPolicyModal('privacy')">🔒 Privacy & Security</button></li>
+                    <li><button onclick="openPolicyModal('disclaimer')">⚖️ Legal Disclaimer</button></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Inquiries</h4>
+                <ul>
+                    <li><button onclick="toggleChat()" style="color: var(--primary-gold); font-weight: 900;">💬 Open Support Chat</button></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023–2026 BASIT BUILDS. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const primaryWhatsApp = "923061853297";
+        const secondaryWhatsApp = "923337358476";
+
+        // Direct WhatsApp launcher
+        function openWhatsAppChat(number, customText) {
+            const message = encodeURIComponent(customText || "Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.");
+            const waUrl = `https://wa.me/${number}?text=${message}`;
+            window.open(waUrl, '_blank');
+        }
+
+        // Opens a modal showing both WhatsApp numbers so the user can choose directly
+        function openWhatsAppChoice(customText) {
+            const encodedText = encodeURIComponent(customText || "Salam! Mujhe Basit Builds ki service ke baare mein janna hai aur ye buy karni hai.");
+            document.getElementById('modalContentBox').innerHTML = `
+                <button class="modal-close-btn" onclick="closePackagesModal()">&times;</button>
+                <div class="modal-heading">
+                    <h2>💬 Choose WhatsApp Number</h2>
+                    <p>Select your preferred number to connect with Basit Builds instantly.</p>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 20px;">
+                    <a href="https://wa.me/${primaryWhatsApp}?text=${encodedText}" target="_blank" class="order-btn" style="background:#25d366; color:#fff; text-decoration:none; padding:14px; font-size:14px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        🟢 WhatsApp Business (+92 306 1853297)
+                    </a>
+                    <a href="https://wa.me/${secondaryWhatsApp}?text=${encodedText}" target="_blank" class="order-btn" style="background:var(--card-bg); border:1px solid var(--primary-gold); color:var(--text-main); text-decoration:none; padding:14px; font-size:14px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        🟡 Simple WhatsApp (+92 333 7358476)
+                    </a>
+                </div>
+            `;
+            document.getElementById('packagesModal').classList.add('active');
+        }
+
+        const databasePackages = {
+            birthday: {
+                title: "🎂 Birthday Website Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Birthday Wish", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["1 Photo slide layout", "Personalized birthday text", "Mobile optimized design", "Fast delivery"] },
+                    { name: "2. Classic Birthday Card", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["2 Photo galleries", "Background music player", "Confetti animation effect", "Direct chat support"] },
+                    { name: "3. Advanced Birthday Hub", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["3 Photo slider frames", "Custom audio soundtrack", "Secret hidden note section", "Interactive countdown"] },
+                    { name: "4. Premium Celebration Page", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Unlimited photos display", "Background custom video loop", "Luxury font styling", "Priority support"] },
+                    { name: "5. Elite Cinematic Birthday", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Full cinematic web layout", "Multiple custom audio tracks", "Special guest wishes board", "Lifetime hosting"] },
+                    { name: "6. Royal Birthday Suite", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Custom domain integration option", "Advanced CSS animations", "Password-protected security", "VIP support"] },
+                    { name: "7. Executive Birthday Build", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Full custom web app features", "Interactive surprise elements", "Complete media management", "Priority maintenance"] },
+                    { name: "8. Ultimate Birthday Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Fully bespoke coded luxury app", "Exclusive gold animations", "Complete lifetime support", "Top tier priority delivery"] }
+                ]
+            },
+            anniversary: {
+                title: "💍 Anniversary Website Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Love Note", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["Couple photo display", "Relationship counter timer", "Mobile-friendly link", "Fast delivery"] },
+                    { name: "2. Classic Couple Page", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["Relationship timeline", "Background romantic audio", "Secret love letter portal", "Responsive layout"] },
+                    { name: "3. Advanced Romance Hub", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["Photo & memory gallery", "Custom romantic animations", "Special milestone counter", "Direct support"] },
+                    { name: "4. Premium Forever Together", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Full photo & video integration", "Custom audio soundtrack", "Interactive love story narrative", "Priority service"] },
+                    { name: "5. Elite Golden Anniversary", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Cinematic love story layout", "Password-protected secure link", "Multiple media slides", "Lifetime hosting"] },
+                    { name: "6. Royal Vows Suite", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Custom UI styling", "Advanced interactive elements", "Family wishes section", "VIP assistance"] },
+                    { name: "7. Executive Couple Portal", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Custom multi-page layout", "Interactive timeline features", "Dedicated developer support", "Priority maintenance"] },
+                    { name: "8. Ultimate Anniversary Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Fully bespoke coded web portal", "Exclusive luxury gold theme", "Complete lifetime maintenance", "Top priority support"] }
+                ]
+            },
+            sad: {
+                title: "🥀 Sad & Memory Website Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Memory Note", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["Tribute photo frame", "Remembrance message text", "Mobile optimized link", "Fast delivery"] },
+                    { name: "2. Classic Memory Page", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["Photo tribute gallery", "Soft ambient background audio", "Respectful clean design", "Responsive layout"] },
+                    { name: "3. Advanced Tribute Hub", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["Life timeline journal", "Dedicated voice note player", "Condolence message space", "Direct support"] },
+                    { name: "4. Premium Legacy Suite", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Extended photo & video gallery", "Custom memorial soundtrack", "Elegant typography styling", "Priority service"] },
+                    { name: "5. Elite Remembrance Page", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Cinematic tribute layout", "Password-protected secure link", "Advanced visual formatting", "Lifetime hosting"] },
+                    { name: "6. Royal Legacy Portal", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Fully customized aesthetic", "Interactive family messages board", "Dedicated developer assistance", "VIP maintenance"] },
+                    { name: "7. Executive Tribute Portal", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Custom multi-section tribute", "Advanced media integration", "Private security controls", "Priority maintenance"] },
+                    { name: "8. Ultimate Remembrance Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Fully bespoke coded memorial app", "Exclusive timeless luxury styling", "Complete lifetime support", "Top priority delivery"] }
+                ]
+            },
+            mothersday: {
+                title: "💐 Mother's Day Website Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Mom Tribute", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["Mom's photo frame layout", "Heartfelt appreciation text", "Mobile optimized link", "Fast delivery"] },
+                    { name: "2. Classic Mom Gallery", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["Multi-photo collection", "Background soothing audio", "Special floral theme design", "Responsive setup"] },
+                    { name: "3. Advanced Mother's Hub", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["Memory timeline display", "Custom voice note integration", "Interactive wishes card", "Direct chat support"] },
+                    { name: "4. Premium Tribute Suite", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Unlimited photo & video slides", "Custom poetry/message section", "Luxury styling", "Priority support"] },
+                    { name: "5. Elite Cinematic Mom Page", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Cinematic design structure", "Password-protected private link", "Advanced animations", "Lifetime hosting"] },
+                    { name: "6. Royal Gratitude Portal", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Fully customized layout", "Interactive family messages", "Dedicated developer assistance", "VIP maintenance"] },
+                    { name: "7. Executive Mother's Portal", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Custom multi-page tribute", "Advanced interactive cards", "Secure private link", "Priority maintenance"] },
+                    { name: "8. Ultimate Mother's Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Bespoke custom coded app", "Exclusive luxury finish", "Complete lifetime support", "Top priority delivery"] }
+                ]
+            },
+            fathersday: {
+                title: "👔 Father's Day Website Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Dad Tribute", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["Dad's photo frame layout", "Custom appreciation text", "Mobile optimized link", "Fast delivery"] },
+                    { name: "2. Classic Dad Gallery", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["Photo collection slider", "Background respectful audio", "Clean professional design", "Responsive layout"] },
+                    { name: "3. Advanced Father's Hub", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["Memory timeline section", "Voice note/audio message", "Interactive card feature", "Direct support"] },
+                    { name: "4. Premium Tribute Suite", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Unlimited photo & video slides", "Custom dedicated message", "Luxury dark/gold styling", "Priority support"] },
+                    { name: "5. Elite Cinematic Dad Page", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Cinematic layout design", "Password-protected secure link", "Advanced visual effects", "Lifetime hosting"] },
+                    { name: "6. Royal Respect Portal", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Fully customized layout", "Interactive family messages", "Dedicated developer assistance", "VIP maintenance"] },
+                    { name: "7. Executive Father's Portal", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Custom layout architecture", "Interactive memory board", "Secure password option", "Priority support"] },
+                    { name: "8. Ultimate Father's Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Bespoke custom coded app", "Exclusive luxury finish", "Complete lifetime support", "Top priority delivery"] }
+                ]
+            },
+            valentine: {
+                title: "💖 Valentine's & Love Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Valentine Note", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["Couple photo frame", "Romantic message display", "Mobile-optimized link", "Fast delivery"] },
+                    { name: "2. Classic Love Page", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["Photo gallery slider", "Romantic background music", "Heart animation effects", "Responsive setup"] },
+                    { name: "3. Advanced Romance Hub", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["Relationship counter timer", "Secret love letter section", "Interactive proposal card", "Direct support"] },
+                    { name: "4. Premium Passion Suite", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Full photo & video integration", "Custom romantic soundtrack", "Luxury gold-red styling", "Priority support"] },
+                    { name: "5. Elite Cinematic Valentine", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Cinematic love story layout", "Password-protected secure link", "Advanced visual animations", "Lifetime hosting"] },
+                    { name: "6. Royal Heart Portal", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Fully customized design", "Interactive surprise features", "Dedicated developer help", "VIP maintenance"] },
+                    { name: "7. Executive Romance Suite", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Custom web design app", "Advanced interactive elements", "Secure private link", "Priority maintenance"] },
+                    { name: "8. Ultimate Love Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Bespoke custom coded web portal", "Exclusive luxury finish", "Complete lifetime support", "Top priority delivery"] }
+                ]
+            },
+            eid: {
+                title: "🌙 Eid & Festive Packages",
+                subtitle: "Starting from PKR 500 with 8 tailored packages.",
+                items: [
+                    { name: "1. Starter Festive Card", price: "PKR 500", old: "PKR 1,500", badge: "STARTING", features: ["Custom family/brand name greeting", "Islamic/Festive luxury theme", "Instant shareable link", "Fast delivery"] },
+                    { name: "2. Classic Eid Hub", price: "PKR 900", old: "PKR 2,200", badge: "POPULAR", featured: true, features: ["Multi-photo greetings gallery", "Background Naat/Nasheed", "Festive UI animations", "Responsive design"] },
+                    { name: "3. Advanced Festive Portal", price: "PKR 1,500", old: "PKR 3,500", badge: "POPULAR", features: ["Extended family photo album", "Interactive wishes form", "Custom audio player", "Direct support"] },
+                    { name: "4. Premium Celebration Suite", price: "PKR 2,200", old: "PKR 5,000", badge: "LUXURY", features: ["Unlimited greetings & photos", "Custom video integration", "Luxury gold styling", "Priority support"] },
+                    { name: "5. Elite Cinematic Eid Page", price: "PKR 3,500", old: "PKR 7,500", badge: "ELITE", features: ["Cinematic festive layout", "Password-protected private link", "Advanced visual effects", "Lifetime hosting"] },
+                    { name: "6. Royal Festive Hub", price: "PKR 5,000", old: "PKR 10,000", badge: "ROYAL", features: ["Fully customized branding", "Interactive guestbook", "Dedicated developer assistance", "VIP maintenance"] },
+                    { name: "7. Executive Festive Build", price: "PKR 7,000", old: "PKR 14,000", badge: "PRO", features: ["Multi-section custom layout", "Advanced festive animations", "Secure link hosting", "Priority support"] },
+                    { name: "8. Ultimate Eid Masterpiece", price: "PKR 10,000", old: "PKR 20,000", badge: "VIP", features: ["Bespoke custom coded application", "Exclusive luxury finish", "Complete lifetime support", "Top priority delivery"] }
+                ]
+            },
+            business: {
+                title: "🏢 Business & Custom Build Packages",
+                subtitle: "Starting from PKR 1,000 with professional business options.",
+                items: [
+                    { name: "1. Basic Landing Page", price: "PKR 1,000", old: "PKR 2,500", badge: "STARTING", features: ["Single-page professional layout", "Services & contact buttons", "Mobile optimized design", "Fast delivery"] },
+                    { name: "2. Classic Portfolio Site", price: "PKR 1,800", old: "PKR 4,000", badge: "POPULAR", featured: true, features: ["Multi-section professional layout", "About & portfolio showcase", "Direct chat inquiry buttons", "Responsive setup"] },
+                    { name: "3. Advanced Business Hub", price: "PKR 3,000", old: "PKR 7,000", badge: "POPULAR", features: ["Interactive UI components", "Services catalog display", "Testimonials section", "Priority support"] },
+                    { name: "4. Digital Storefront Starter", price: "PKR 4,500", old: "PKR 10,000", badge: "STORE", features: ["Vertical scrolling product catalog", "Clean modern storefront UI", "Direct order via chat", "Fast loading speeds"] },
+                    { name: "5. Premium Corporate Suite", price: "PKR 6,000", old: "PKR 14,000", badge: "PRO", features: ["Multi-page corporate site structure", "Advanced animations", "Dedicated developer support", "Lifetime link hosting"] },
+                    { name: "6. Elite Agency Portal", price: "PKR 9,000", old: "PKR 20,000", badge: "ELITE", features: ["Fully custom coded agency app", "Advanced UI/UX design", "Custom domain integration option", "VIP maintenance"] },
+                    { name: "7. Royal E-Commerce Store", price: "PKR 14,000", old: "PKR 30,000", badge: "ROYAL", features: ["Complete digital store setup", "Product management system", "Advanced security features", "Priority studio support"] },
+                    { name: "8. Ultimate Enterprise Masterpiece", price: "PKR 22,000", old: "PKR 45,000", badge: "VIP", features: ["Bespoke enterprise web architecture", "Custom backend solutions", "Lifetime priority maintenance", "Exclusive agency partnership"] }
+                ]
+            }
+        };
+
+        const reviewsData = [
+            { name: "Ahmed Khan", text: "Basit bhai ne bohat zabardast website banai hai! Starting price sirf 500 PKR hai.", avatar: "A", stars: "★★★★★" },
+            { name: "Sara Malik", text: "The birthday web gift page was breathtaking. Incredible animations!", avatar: "S", stars: "★★★★★" },
+            { name: "Usman Ali", text: "Amazing service! Bht hi kam price me itni luxury website mil gayi.", avatar: "U", stars: "★★★★★" },
+            { name: "Ayesha Noor", text: "Anniversary hub design kia tha, unbelievable quality and fast delivery.", avatar: "AY", stars: "★★★★★" }
+        ];
+
+        function initTestimonials() {
+            const track = document.getElementById('testimonialsTrack');
+            let html = '';
+            for(let i=0; i<2; i++) {
+                reviewsData.forEach(rev => {
+                    html += `
+                        <div class="testimonial-card">
+                            <div class="client-info">
+                                <div class="client-avatar">${rev.avatar}</div>
+                                <div>
+                                    <div class="client-name">${rev.name}</div>
+                                    <div class="client-stars">${rev.stars}</div>
+                                </div>
+                            </div>
+                            <p class="client-text">"${rev.text}"</p>
+                        </div>
+                    `;
+                });
+            }
+            track.innerHTML = html;
+        }
+        initTestimonials();
+
+        function openPackages(categoryKey) {
+            const data = databasePackages[categoryKey];
+            if(!data) return;
+
+            let cardsHtml = '';
+            data.items.forEach((pkg, index) => {
+                let listHtml = pkg.features.map(f => `<li>${f}</li>`).join('');
+                let inquiryMsg = `Salam! Mujhe '${data.title}' mein se '${pkg.name}' (${pkg.price}) service ke baare mein janna hai aur ye buy karni hai.`;
+                cardsHtml += `
+                    <div class="package-box ${pkg.featured ? 'highlight' : ''}">
+                        <span class="pkg-tag">${pkg.badge}</span>
+                        <div>
+                            <div class="pkg-title">${pkg.name}</div>
+                            <div class="pkg-price">${pkg.price} <span>${pkg.old}</span></div>
+                            <ul class="pkg-features">${listHtml}</ul>
+                        </div>
+                        <button type="button" onclick="openWhatsAppChoice('${inquiryMsg}')" class="order-btn">Inquire via WhatsApp</button>
+                    </div>
+                `;
+            });
+
+            document.getElementById('modalContentBox').innerHTML = `
+                <button class="modal-close-btn" onclick="closePackagesModal()">&times;</button>
+                <div class="modal-heading">
+                    <h2>${data.title}</h2>
+                    <p>${data.subtitle}</p>
+                </div>
+                <div class="packages-grid">${cardsHtml}</div>
+            `;
+            document.getElementById('packagesModal').classList.add('active');
+        }
+
+        function openPaymentPortal(walletName, walletNumber, accountHolder, iconUrl) {
+            document.getElementById('modalContentBox').innerHTML = `
+                <button class="modal-close-btn" onclick="closePackagesModal()">&times;</button>
+                <div class="modal-heading">
+                    <h2>Deposit via ${walletName}</h2>
+                    <p>Transfer funds to the account details below, then enter your deposit proof.</p>
+                </div>
+                <div style="background:var(--card-bg); border:1px solid var(--card-border); padding:20px; border-radius:16px; margin-bottom:20px; text-align:center;">
+                    <div style="width:50px; height:50px; background:#fff; margin:0 auto 10px auto; border-radius:10px; padding:5px; display:flex; align-items:center; justify-content:center;">
+                        <img src="${iconUrl}" style="max-width:100%; max-height:100%; object-fit:contain;" />
+                    </div>
+                    <p style="font-size:12px; color:var(--text-muted);">Account Title: <strong style="color:var(--text-main);">${accountHolder}</strong></p>
+                    <p style="font-size:16px; font-weight:900; color:var(--primary-gold); margin-top:4px; letter-spacing:1px;">${walletNumber}</p>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div>
+                        <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Deposit Amount (PKR)</label>
+                        <input type="number" id="depositAmount" placeholder="e.g. 500" style="width:100%; background:var(--card-bg); border:1px solid var(--card-border); padding:10px; border-radius:8px; color:var(--text-main); font-size:13px; outline:none;" />
+                    </div>
+                    <div>
+                        <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Transaction ID (TRX ID)</label>
+                        <input type="text" id="trxId" placeholder="Enter transaction reference ID" style="width:100%; background:var(--card-bg); border:1px solid var(--card-border); padding:10px; border-radius:8px; color:var(--text-main); font-size:13px; outline:none;" />
+                    </div>
+                    <div>
+                        <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">Your Account Name (Sender Name)</label>
+                        <input type="text" id="senderName" placeholder="Name on your wallet/bank account" style="width:100%; background:var(--card-bg); border:1px solid var(--card-border); padding:10px; border-radius:8px; color:var(--text-main); font-size:13px; outline:none;" />
+                    </div>
+                    <button type="button" onclick="submitPaymentVerification('${walletName}')" class="order-btn" style="margin-top:6px; padding:12px;">Verify Payment</button>
+                </div>
+            `;
+            document.getElementById('packagesModal').classList.add('active');
+        }
+
+        function submitPaymentVerification(walletName) {
+            const amount = document.getElementById('depositAmount').value.trim();
+            const trx = document.getElementById('trxId').value.trim();
+            const sender = document.getElementById('senderName').value.trim();
+
+            if(!amount || !trx || !sender) {
+                alert("Please fill in all payment details (Amount, TRX ID, and Sender Name).");
+                return;
+            }
+
+            let payMsg = `Salam! Maine ${walletName} ke zariye PKR ${amount} deposit kiye hain. TRX ID: ${trx}, Sender Name: ${sender}. Kindly verify my payment.`;
+
+            document.getElementById('modalContentBox').innerHTML = `
+                <button class="modal-close-btn" onclick="closePackagesModal()">&times;</button>
+                <div class="modal-heading" style="text-align:center; padding: 20px 0;">
+                    <div style="font-size:45px; margin-bottom:10px;">⏳</div>
+                    <h2 style="color:var(--primary-gold);">Payment Verification Pending</h2>
+                    <p style="margin-top:10px; font-size:13.5px; line-height:1.6; color:var(--text-main);">
+                        Your payment submission for <strong style="color:var(--primary-gold);">${walletName}</strong> has been received successfully!<br><br>
+                        <strong style="color:#ef4444;">Please wait up to 24 hours</strong> for manual transaction review.<br>
+                        Send your payment screenshot on WhatsApp to fast-track your project.
+                    </p>
+                    <button type="button" onclick="openWhatsAppChoice('${payMsg}')" class="order-btn" style="margin-top:20px; display:inline-block; background:#25d366; color:#fff;">Send Screenshot on WhatsApp</button>
+                </div>
+            `;
+        }
+
+        function openComingSoonModal(walletName) {
+            document.getElementById('modalContentBox').innerHTML = `
+                <button class="modal-close-btn" onclick="closePackagesModal()">&times;</button>
+                <div class="modal-heading" style="text-align:center; padding: 30px 0;">
+                    <div style="font-size:45px; margin-bottom:10px;">🚀</div>
+                    <h2>${walletName} Wallet</h2>
+                    <p style="font-size:16px; font-weight:900; color:var(--primary-gold); margin-top:15px; letter-spacing:1px;">WALLET COMING SOON</p>
+                    <p style="font-size:13px; color:var(--text-muted); margin-top:10px;">This payment channel will be available shortly. Please use JazzCash or SadaPay in the meantime.</p>
+                </div>
+            `;
+            document.getElementById('packagesModal').classList.add('active');
+        }
+
+        function closePackagesModal() {
+            document.getElementById('packagesModal').classList.remove('active');
+        }
+
+        function handleModalOutside(e) {
+            if(e.target.id === 'packagesModal') closePackagesModal();
+        }
+
+        const sideDrawer = document.getElementById('sideDrawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            sideDrawer.classList.add('active');
+            drawerOverlay.classList.add('active');
+        });
+
+        function closeDrawer() {
+            sideDrawer.classList.remove('active');
+            drawerOverlay.classList.remove('active');
+        }
+
+        const themeBtn = document.getElementById('themeBtn');
+        const htmlEl = document.documentElement;
+
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = htmlEl.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', newTheme);
+            themeBtn.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+
+        function toggleChat() {
+            closeDrawer();
+            closePackagesModal();
+            document.getElementById('chatPopup').classList.toggle('active');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const val = input.value.trim();
+            if(!val) return;
+            const chatBody = document.querySelector('.chat-body');
+            chatBody.innerHTML += `<div class="chat-msg" style="background:rgba(212,175,55,0.15); border-color:var(--primary-gold); text-align:right;">${val}</div>`;
+            input.value = '';
+            setTimeout(() => {
+                chatBody.innerHTML += `<div class="chat-msg">Thank you! Click the WhatsApp button above to continue chatting directly with support.</div>`;
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 800);
+        }
+
+        function openPolicyModal(type) {
+            closeDrawer();
+            let title = "", content = "";
+            if(type === 'privacy') {
+                title = "🔒 Privacy & Data Policy";
+                content = "Your media files and messages are kept 100% confidential and securely deleted after project delivery.";
+            } else if(type === 'about') {
+                title = "👑 About Basit Builds";
+                content = "Professional agency crafting occasion sites starting from PKR 500 and business sites starting from PKR 1,000.";
+            } else if(type === 'disclaimer') {
+                title = "⚖️ Legal Disclaimer";
+                content = "All custom web builds are provided as agreed. Special pages start from PKR 500 and business from PKR 1,000.";
+            }
+            document.getElementById('modalContentBox').innerHTML = `
+                <button class="modal-close-btn" onclick="closePackagesModal()">&times;</button>
+                <div class="modal-heading"><h2>${title}</h2></div>
+                <div style="font-size:13px; color:var(--text-muted); line-height:1.8; padding: 10px 5px;"><p>${content}</p></div>
+                <div style="text-align:center; margin-top:20px;">
+                    <button type="button" onclick="closePackagesModal()" style="background:var(--primary-gold); color:#000; border:none; padding:8px 18px; border-radius:8px; font-weight:900; cursor:pointer;">Close</button>
+                </div>
+            `;
+            document.getElementById('packagesModal').classList.add('active');
+        }
+    </script>
+</body>
+</html>
