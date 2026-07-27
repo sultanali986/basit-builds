@@ -3,166 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basit Builds - Mother Panel & SMM Style Master Admin</title>
+    <title>Welcome to Basit Builds Admin Panel</title>
     <style>
-        :root {
-            --bg-main: #0f172a;
-            --card-bg: #1e293b;
-            --accent: #38bdf8;
-            --text-color: #f8fafc;
-            --border-color: #334155;
-        }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-main); color: var(--text-color); margin: 0; padding: 20px; }
-        .wrapper { max-width: 1100px; margin: auto; }
-        .header-title { text-align: center; margin-bottom: 30px; }
-        .header-title h1 { color: var(--accent); margin: 0; font-size: 28px; }
-        .header-title p { color: #94a3b8; margin: 5px 0 0 0; }
-        
-        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .full-width { grid-column: span 2; }
-        
-        .panel-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; }
-        .panel-card h3 { margin-top: 0; color: var(--accent); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; font-size: 18px; }
-        
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1; font-size: 14px; }
-        input, textarea, select { width: 100%; padding: 12px; background: #0f172a; border: 1px solid var(--border-color); color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; }
-        
-        button { background: var(--accent); color: #0f172a; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 15px; font-weight: bold; transition: 0.2s; }
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-danger { background: #ef4444; color: #fff; }
-        .btn-secondary { background: #475569; color: #fff; margin-top: 15px; }
-        
-        .item-row { background: #0f172a; padding: 12px 15px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid var(--accent); display: flex; justify-content: space-between; align-items: center; }
-        #login-section, #admin-dashboard { display: none; }
-        .login-box { max-width: 400px; margin: 80px auto; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; margin: 0; padding: 20px; }
+        .box { max-width: 850px; margin: auto; background: #1e293b; padding: 30px; border-radius: 10px; border: 1px solid #334155; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        h2, h3 { color: #38bdf8; text-align: center; }
+        .group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; color: #cbd5e1; font-size: 14px; }
+        input, textarea { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        input:focus, textarea:focus { border-color: #38bdf8; outline: none; }
+        button { background: #38bdf8; color: #0f172a; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; transition: 0.2s; }
+        button:hover { opacity: 0.9; }
+        .danger { background: #ef4444; color: #fff; }
+        .danger:hover { background: #dc2626; }
+        .card-item { background: #0f172a; padding: 15px; margin-top: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #38bdf8; }
+        #login-panel, #dashboard-panel { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <!-- Login Section -->
-        <div id="login-section" class="login-box">
-            <h2 style="text-align: center; color: var(--accent); margin-top:0;">Basit Builds Admin</h2>
-            <div class="form-group">
+    <div class="box">
+        <!-- Login Form -->
+        <div id="login-panel">
+            <h2>Welcome to Basit Builds Admin Panel</h2>
+            <div class="group">
                 <label>Admin Email</label>
-                <input type="email" id="login-email" placeholder="admin@basitbuilds.com">
+                <input type="email" id="l-email" placeholder="admin@email.com">
             </div>
-            <div class="form-group">
+            <div class="group">
                 <label>Password</label>
-                <input type="password" id="login-password" placeholder="••••••••">
+                <input type="password" id="l-pass" placeholder="Password">
             </div>
-            <button onclick="loginAdmin()">Secure Login</button>
+            <button onclick="adminLogin()">Login to Dashboard</button>
         </div>
 
-        <!-- Master Dashboard -->
-        <div id="admin-dashboard">
-            <div class="header-title">
-                <h1>Basit Builds - Mother & SMM Master Panel</h1>
-                <p>Complete A-to-Z Control Center for Website Theme, SEO, Scripts & Services</p>
+        <!-- Dashboard Panel -->
+        <div id="dashboard-panel">
+            <h2>Welcome to Basit Builds Admin Panel</h2>
+            <p style="text-align: center; color: #94a3b8; font-size: 13px;">Master SMM & WordPress Style Control Center</p>
+            
+            <hr style="border-color: #334155; margin: 25px 0;">
+            
+            <!-- 1. Website Branding, SEO & Chat Settings -->
+            <h3>1. Website Branding, SEO & Live Chat Settings</h3>
+            <div class="group">
+                <label>Website Logo URL (Image Link)</label>
+                <input type="text" id="cfg-logo" placeholder="https://example.com/logo.png">
             </div>
-
-            <div class="admin-grid">
-                <!-- Section 1: Website Theme & Global Design Switcher -->
-                <div class="panel-card">
-                    <h3>🎨 Theme & Design Engine</h3>
-                    <div class="form-group">
-                        <label>Select Pre-built Website Theme Style</label>
-                        <select id="theme-preset">
-                            <option value="modern-dark">Modern Dark (Default SMM Style)</option>
-                            <option value="neon-cyber">Neon Cyberpunk Blue</option>
-                            <option value="clean-light">Clean Professional Light</option>
-                            <option value="royal-gold">Royal Dark & Gold</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Primary Accent Color Override</label>
-                        <input type="color" id="theme-color" value="#38bdf8" style="height: 45px; padding: 2px;">
-                    </div>
-                    <button onclick="saveThemeSettings()">Update & Apply Theme Live</button>
-                </div>
-
-                <!-- Section 2: SEO Meta Tags & Google Indexing Control -->
-                <div class="panel-card">
-                    <h3>🔍 SEO & Meta Tags Manager</h3>
-                    <div class="form-group">
-                        <label>Website Global SEO Title</label>
-                        <input type="text" id="seo-title" placeholder="Basit Builds - Digital Services & Courses">
-                    </div>
-                    <div class="form-group">
-                        <label>Meta Description (Google Search Snippet)</label>
-                        <textarea id="seo-desc" rows="2" placeholder="Explore top free courses, digital services..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Keywords (Comma separated)</label>
-                        <input type="text" id="seo-keywords" placeholder="digital marketing, courses, smm panel">
-                    </div>
-                    <button onclick="saveSeoSettings()">Save SEO Configuration</button>
-                </div>
-
-                <!-- Section 3: Live Chat, WhatsApp & Custom Scripts Injector -->
-                <div class="panel-card full-width">
-                    <h3>⚡ Live Chat, WhatsApp & Custom Scripts Injector (Header/Footer HTML)</h3>
-                    <div class="form-group">
-                        <label>WhatsApp Support Number (Format: 923001234567)</label>
-                        <input type="text" id="script-whatsapp" placeholder="923001234567">
-                    </div>
-                    <div class="form-group">
-                        <label>Live Chat Widget Script (Tawk.to, Crisp, Messenger, etc.)</label>
-                        <textarea id="script-livechat" rows="3" placeholder="Paste full script code here..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Custom Header / Analytics Tracking Code (Google Analytics, Pixels)</label>
-                        <textarea id="script-analytics" rows="3" placeholder="<script>...</script>"></textarea>
-                    </div>
-                    <button onclick="saveScriptsSettings()">Deploy Scripts Live</button>
-                </div>
-
-                <!-- Section 4: Add Services / Courses (Mother Panel Style) -->
-                <div class="panel-card">
-                    <h3>➕ Add New Service / Course</h3>
-                    <div class="form-group">
-                        <label>Service / Course Title</label>
-                        <input type="text" id="item-title" placeholder="e.g. Instagram Followers / AI Course">
-                    </div>
-                    <div class="form-group">
-                        <label>Category / Section Name</label>
-                        <input type="text" id="item-category" placeholder="e.g. Free Courses / SMM Services">
-                    </div>
-                    <div class="form-group">
-                        <label>Price / Rate</label>
-                        <input type="text" id="item-price" placeholder="Free or Rs. 299">
-                    </div>
-                    <div class="form-group">
-                        <label>Thumbnail / Image URL</label>
-                        <input type="text" id="item-img" placeholder="https://...">
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea id="item-desc" rows="2" placeholder="Details..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Target Redirect / Action Link</label>
-                        <input type="text" id="item-link" placeholder="https://wa.me/... or download link">
-                    </div>
-                    <button onclick="addNewItem()">Publish Service / Course</button>
-                </div>
-
-                <!-- Section 5: Manage / Delete Existing Items -->
-                <div class="panel-card">
-                    <h3>⚙️ Manage & Delete Existing Items</h3>
-                    <div id="items-container" style="max-height: 400px; overflow-y: auto;">
-                        <p style="color: #64748b;">Loading items...</p>
-                    </div>
-                </div>
+            <div class="group">
+                <label>Google SEO Title (For Top Google Ranking)</label>
+                <input type="text" id="cfg-seotitle" placeholder="Basit Builds - Free Courses & Digital Services">
             </div>
+            <div class="group">
+                <label>Google SEO Meta Description (Search Snippet)</label>
+                <textarea id="cfg-seodesc" rows="2" placeholder="Explore top digital courses..."></textarea>
+            </div>
+            <div class="group">
+                <label>WhatsApp Support Number (e.g. 923001234567)</label>
+                <input type="text" id="cfg-whatsapp" placeholder="923001234567">
+            </div>
+            <div class="group">
+                <label>Live Chat / Messenger Script Code (HTML/JS)</label>
+                <textarea id="cfg-livechat" rows="3" placeholder="Paste your Tawk.to, Messenger, or Live Chat script here..."></textarea>
+            </div>
+            <button onclick="saveGlobalSettings()">Save All Settings</button>
 
-            <button class="btn-secondary" onclick="logoutAdmin()">Logout from Master Panel</button>
+            <hr style="border-color: #334155; margin: 25px 0;">
+
+            <!-- 2. Add New Course / Service -->
+            <h3>2. Add New Course / Service</h3>
+            <div class="group">
+                <label>Course / Service Title</label>
+                <input type="text" id="c-title" placeholder="Enter course title">
+            </div>
+            <div class="group">
+                <label>Category</label>
+                <input type="text" id="c-cat" placeholder="e.g. Free Courses">
+            </div>
+            <div class="group">
+                <label>Price</label>
+                <input type="text" id="c-price" placeholder="Free or Rs. 500">
+            </div>
+            <div class="group">
+                <label>Thumbnail / Image URL</label>
+                <input type="text" id="c-img" placeholder="Paste image link">
+            </div>
+            <div class="group">
+                <label>Description</label>
+                <textarea id="c-desc" rows="2" placeholder="Course details..."></textarea>
+            </div>
+            <div class="group">
+                <label>Redirect / Download / WhatsApp Link</label>
+                <input type="text" id="c-link" placeholder="Enter link">
+            </div>
+            <button onclick="addNewCourse()">Publish Course / Item</button>
+
+            <hr style="border-color: #334155; margin: 25px 0;">
+
+            <!-- 3. Manage & Delete Existing Courses -->
+            <h3>3. Manage & Delete Existing Courses</h3>
+            <div id="manage-list"><p style="color: #94a3b8;">Loading courses...</p></div>
+
+            <button class="danger" style="margin-top: 35px;" onclick="adminLogout()">Logout</button>
         </div>
     </div>
 
-    <!-- Firebase Scripts -->
+    <!-- Firebase SDK Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -181,121 +127,119 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Check Login Status
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById('admin-dashboard').style.display = 'block';
-                document.getElementById('login-section').style.display = 'none';
-                loadAllData();
+                document.getElementById('dashboard-panel').style.display = 'block';
+                document.getElementById('login-panel').style.display = 'none';
+                loadAdminData();
             } else {
-                document.getElementById('login-section').style.display = 'block';
-                document.getElementById('admin-dashboard').style.display = 'none';
+                document.getElementById('login-panel').style.display = 'block';
+                document.getElementById('dashboard-panel').style.display = 'none';
             }
         });
 
-        window.loginAdmin = function() {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-password').value;
-            signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Error: " + err.message));
+        window.adminLogin = function() {
+            const email = document.getElementById('l-email').value;
+            const pass = document.getElementById('l-pass').value;
+            signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Login Error: " + e.message));
         };
 
-        window.logoutAdmin = function() { signOut(auth); };
+        window.adminLogout = function() { signOut(auth); };
 
-        // Save Theme Settings
-        window.saveThemeSettings = async function() {
-            const preset = document.getElementById('theme-preset').value;
-            const color = document.getElementById('theme-color').value;
-            await setDoc(doc(db, "settings", "theme"), { preset, color }, { merge: true });
-            alert("Theme settings deployed successfully!");
-        };
-
-        // Save SEO Settings
-        window.saveSeoSettings = async function() {
-            const title = document.getElementById('seo-title').value;
-            const desc = document.getElementById('seo-desc').value;
-            const keywords = document.getElementById('seo-keywords').value;
-            await setDoc(doc(db, "settings", "seo"), { title, desc, keywords }, { merge: true });
-            alert("SEO metadata updated successfully!");
-        };
-
-        // Save Scripts & Live Chat Settings
-        window.saveScriptsSettings = async function() {
-            const whatsapp = document.getElementById('script-whatsapp').value;
-            const livechat = document.getElementById('script-livechat').value;
-            const analytics = document.getElementById('script-analytics').value;
-            await setDoc(doc(db, "settings", "scripts"), { whatsapp, livechat, analytics }, { merge: true });
-            alert("Live chat and tracking scripts injected successfully!");
-        };
-
-        // Add Item
-        window.addNewItem = async function() {
-            const title = document.getElementById('item-title').value;
-            const category = document.getElementById('item-category').value;
-            const price = document.getElementById('item-price').value;
-            const img = document.getElementById('item-img').value;
-            const desc = document.getElementById('item-desc').value;
-            const link = document.getElementById('item-link').value;
-
-            if(!title || !link) { alert("Title and Link are required!"); return; }
-
-            await addDoc(collection(db, "courses"), { title, category, price, img, desc, link, createdAt: new Date() });
-            alert("Item published successfully!");
-            document.getElementById('item-title').value = '';
-            document.getElementById('item-category').value = '';
-            document.getElementById('item-price').value = '';
-            document.getElementById('item-img').value = '';
-            document.getElementById('item-desc').value = '';
-            document.getElementById('item-link').value = '';
-            loadItems();
-        };
-
-        // Load Items
-        async function loadItems() {
-            const container = document.getElementById('items-container');
-            const snap = await getDocs(collection(db, "courses"));
-            container.innerHTML = "";
-            if(snap.empty) { container.innerHTML = "<p>No services/courses found.</p>"; return; }
+        // Save Global Settings (Logo, SEO, WhatsApp, Live Chat)
+        window.saveGlobalSettings = async function() {
+            const logo = document.getElementById('cfg-logo').value;
+            const seotitle = document.getElementById('cfg-seotitle').value;
+            const seodesc = document.getElementById('cfg-seodesc').value;
+            const whatsapp = document.getElementById('cfg-whatsapp').value;
+            const livechat = document.getElementById('cfg-livechat').value;
             
-            snap.forEach((d) => {
-                const data = d.data();
-                const div = document.createElement('div');
-                div.className = 'item-row';
-                div.innerHTML = `
-                    <div><strong>${data.title}</strong><br><small style="color:#94a3b8;">${data.category || 'General'} | ${data.price || 'Free'}</small></div>
-                    <button class="btn-danger" style="width:auto; padding:6px 12px; font-size:12px;" onclick="deleteItem('${d.id}')">Delete</button>
-                `;
-                container.appendChild(div);
-            });
+            try {
+                await setDoc(doc(db, "settings", "global"), { logo, seotitle, seodesc, whatsapp, livechat }, { merge: true });
+                alert("Settings saved successfully in Firebase database!");
+            } catch (e) {
+                alert("Error saving: " + e.message);
+            }
+        };
+
+        // Add Course Function
+        window.addNewCourse = async function() {
+            const title = document.getElementById('c-title').value;
+            const category = document.getElementById('c-cat').value;
+            const price = document.getElementById('c-price').value;
+            const img = document.getElementById('c-img').value;
+            const desc = document.getElementById('c-desc').value;
+            const link = document.getElementById('c-link').value;
+
+            if(!title || !link) { alert("Please fill Title and Link fields!"); return; }
+
+            try {
+                await addDoc(collection(db, "courses"), { title, category, price, img, desc, link, createdAt: new Date() });
+                alert("Course published successfully!");
+                document.getElementById('c-title').value = '';
+                document.getElementById('c-cat').value = '';
+                document.getElementById('c-price').value = '';
+                document.getElementById('c-img').value = '';
+                document.getElementById('c-desc').value = '';
+                document.getElementById('c-link').value = '';
+                loadCoursesList();
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        };
+
+        // Load Courses for Management
+        async function loadCoursesList() {
+            const container = document.getElementById('manage-list');
+            try {
+                const snap = await getDocs(collection(db, "courses"));
+                container.innerHTML = "";
+                if(snap.empty) { container.innerHTML = "<p style='color: #94a3b8;'>No courses found.</p>"; return; }
+                
+                snap.forEach((d) => {
+                    const data = d.data();
+                    const div = document.createElement('div');
+                    div.className = 'card-item';
+                    div.innerHTML = `
+                        <span><strong>${data.title}</strong> (${data.price || 'Free'})</span>
+                        <button class="danger" style="width: auto; padding: 6px 12px; font-size: 13px; margin:0;" onclick="removeCourse('${d.id}')">Delete</button>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (e) {
+                container.innerHTML = "<p style='color: #ef4444;'>Error loading courses.</p>";
+            }
         }
 
-        window.deleteItem = async function(id) {
-            if(confirm("Delete this item?")) {
-                await deleteDoc(doc(db, "courses", id));
-                alert("Deleted!");
-                loadItems();
+        // Delete Course
+        window.removeCourse = async function(id) {
+            if(confirm("Are you sure you want to delete this course?")) {
+                try {
+                    await deleteDoc(doc(db, "courses", id));
+                    alert("Course deleted successfully!");
+                    loadCoursesList();
+                } catch (e) {
+                    alert("Error deleting: " + e.message);
+                }
             }
         };
 
-        async function loadAllData() {
-            loadItems();
-            // Load theme
-            const tDoc = await getDoc(doc(db, "settings", "theme"));
-            if(tDoc.exists()) {
-                if(tDoc.data().preset) document.getElementById('theme-preset').value = tDoc.data().preset;
-                if(tDoc.data().color) document.getElementById('theme-color').value = tDoc.data().color;
-            }
-            // Load SEO
-            const sDoc = await getDoc(doc(db, "settings", "seo"));
-            if(sDoc.exists()) {
-                document.getElementById('seo-title').value = sDoc.data().title || '';
-                document.getElementById('seo-desc').value = sDoc.data().desc || '';
-                document.getElementById('seo-keywords').value = sDoc.data().keywords || '';
-            }
-            // Load Scripts
-            const scDoc = await getDoc(doc(db, "settings", "scripts"));
-            if(scDoc.exists()) {
-                document.getElementById('script-whatsapp').value = scDoc.data().whatsapp || '';
-                document.getElementById('script-livechat').value = scDoc.data().livechat || '';
-                document.getElementById('script-analytics').value = scDoc.data().analytics || '';
+        // Load Existing Settings into Admin Panel
+        async function loadAdminData() {
+            loadCoursesList();
+            try {
+                const docSnap = await getDoc(doc(db, "settings", "global"));
+                if(docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('cfg-logo').value = data.logo || '';
+                    document.getElementById('cfg-seotitle').value = data.seotitle || '';
+                    document.getElementById('cfg-seodesc').value = data.seodesc || '';
+                    document.getElementById('cfg-whatsapp').value = data.whatsapp || '';
+                    document.getElementById('cfg-livechat').value = data.livechat || '';
+                }
+            } catch (e) {
+                console.log(e);
             }
         }
     </script>
