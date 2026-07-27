@@ -3,33 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basit Builds - Master SMM & Website Admin Panel</title>
+    <title>Basit Builds - Mother Panel & SMM Style Master Admin</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #1e1e2f; color: #fff; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: #2a2a40; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
-        h2, h3 { color: #00d2ff; text-align: center; }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #ccc; }
-        input, textarea, select { width: 100%; padding: 12px; background: #1a1a29; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        input:focus, textarea:focus { border-color: #00d2ff; outline: none; }
-        button { background: #00d2ff; color: #000; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #00a8cc; color: #fff; }
-        .danger-btn { background: #ff4d4d; color: #fff; }
-        .danger-btn:hover { background: #cc0000; }
-        #logout-btn { background: #444; color: #fff; margin-top: 30px; }
-        #logout-btn:hover { background: #666; }
-        #login-section, #admin-section { display: none; }
-        .course-item { background: #1a1a29; padding: 15px; margin-bottom: 12px; border-radius: 6px; border-left: 5px solid #00d2ff; display: flex; justify-content: space-between; align-items: center; }
-        .section-box { background: #222238; padding: 20px; border: 1px solid #33334d; border-radius: 8px; margin-bottom: 25px; }
-        .badge { background: #00d2ff; color: #000; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
+        :root {
+            --bg-main: #0f172a;
+            --card-bg: #1e293b;
+            --accent: #38bdf8;
+            --text-color: #f8fafc;
+            --border-color: #334155;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-main); color: var(--text-color); margin: 0; padding: 20px; }
+        .wrapper { max-width: 1100px; margin: auto; }
+        .header-title { text-align: center; margin-bottom: 30px; }
+        .header-title h1 { color: var(--accent); margin: 0; font-size: 28px; }
+        .header-title p { color: #94a3b8; margin: 5px 0 0 0; }
+        
+        .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        
+        .panel-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; }
+        .panel-card h3 { margin-top: 0; color: var(--accent); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; font-size: 18px; }
+        
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #cbd5e1; font-size: 14px; }
+        input, textarea, select { width: 100%; padding: 12px; background: #0f172a; border: 1px solid var(--border-color); color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; }
+        
+        button { background: var(--accent); color: #0f172a; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 15px; font-weight: bold; transition: 0.2s; }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-danger { background: #ef4444; color: #fff; }
+        .btn-secondary { background: #475569; color: #fff; margin-top: 15px; }
+        
+        .item-row { background: #0f172a; padding: 12px 15px; margin-bottom: 10px; border-radius: 6px; border-left: 4px solid var(--accent); display: flex; justify-content: space-between; align-items: center; }
+        #login-section, #admin-dashboard { display: none; }
+        .login-box { max-width: 400px; margin: 80px auto; background: var(--card-bg); padding: 30px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="wrapper">
         <!-- Login Section -->
-        <div id="login-section">
-            <h2>Basit Builds - Admin Login</h2>
+        <div id="login-section" class="login-box">
+            <h2 style="text-align: center; color: var(--accent); margin-top:0;">Basit Builds Admin</h2>
             <div class="form-group">
                 <label>Admin Email</label>
                 <input type="email" id="login-email" placeholder="admin@basitbuilds.com">
@@ -38,90 +53,121 @@
                 <label>Password</label>
                 <input type="password" id="login-password" placeholder="••••••••">
             </div>
-            <button onclick="loginAdmin()">Login to Master Dashboard</button>
+            <button onclick="loginAdmin()">Secure Login</button>
         </div>
 
-        <!-- Admin Dashboard Section -->
-        <div id="admin-section">
-            <h2>Basit Builds - WordPress / SMM Style Master Admin</h2>
-            <p style="text-align: center; color: #aaa;">A to Z Global Website & Course Control Panel</p>
-
-            <!-- 1. Global Website Settings & Live Chat / WhatsApp Control -->
-            <div class="section-box">
-                <h3>Global Website & Contact Settings</h3>
-                <div class="form-group">
-                    <label>WhatsApp Number (with country code, e.g., 923001234567)</label>
-                    <input type="text" id="setting-whatsapp" placeholder="923001234567">
-                </div>
-                <div class="form-group">
-                    <label>Live Chat Widget Script / HTML (e.g., Tawk.to, Crisp, or Messenger Code)</label>
-                    <textarea id="setting-livechat" rows="4" placeholder="Paste your live chat tracking code or script here..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Website Main Theme Color</label>
-                    <input type="color" id="setting-color" value="#00d2ff" style="height: 45px; padding: 2px; cursor: pointer;">
-                </div>
-                <div class="form-group">
-                    <label>Select Global Typography / Font</label>
-                    <select id="setting-font">
-                        <option value="Arial, sans-serif">Arial</option>
-                        <option value="'Courier New', Courier, monospace">Courier New</option>
-                        <option value="Georgia, serif">Georgia</option>
-                        <option value="'Times New Roman', Times, serif">Times New Roman</option>
-                    </select>
-                </div>
-                <button onclick="saveGlobalSettings()">Save All Website Settings</button>
+        <!-- Master Dashboard -->
+        <div id="admin-dashboard">
+            <div class="header-title">
+                <h1>Basit Builds - Mother & SMM Master Panel</h1>
+                <p>Complete A-to-Z Control Center for Website Theme, SEO, Scripts & Services</p>
             </div>
 
-            <!-- 2. Add New Course / Service (SMM Panel Style) -->
-            <div class="section-box">
-                <h3>Add New Course / Service / Item</h3>
-                <div class="form-group">
-                    <label>Title / Service Name</label>
-                    <input type="text" id="course-title" placeholder="e.g. YouTube Copy Paste Course">
+            <div class="admin-grid">
+                <!-- Section 1: Website Theme & Global Design Switcher -->
+                <div class="panel-card">
+                    <h3>🎨 Theme & Design Engine</h3>
+                    <div class="form-group">
+                        <label>Select Pre-built Website Theme Style</label>
+                        <select id="theme-preset">
+                            <option value="modern-dark">Modern Dark (Default SMM Style)</option>
+                            <option value="neon-cyber">Neon Cyberpunk Blue</option>
+                            <option value="clean-light">Clean Professional Light</option>
+                            <option value="royal-gold">Royal Dark & Gold</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Accent Color Override</label>
+                        <input type="color" id="theme-color" value="#38bdf8" style="height: 45px; padding: 2px;">
+                    </div>
+                    <button onclick="saveThemeSettings()">Update & Apply Theme Live</button>
                 </div>
-                <div class="form-group">
-                    <label>Category (e.g., Free Courses, Premium, SMM)</label>
-                    <input type="text" id="course-category" placeholder="Free Courses">
+
+                <!-- Section 2: SEO Meta Tags & Google Indexing Control -->
+                <div class="panel-card">
+                    <h3>🔍 SEO & Meta Tags Manager</h3>
+                    <div class="form-group">
+                        <label>Website Global SEO Title</label>
+                        <input type="text" id="seo-title" placeholder="Basit Builds - Digital Services & Courses">
+                    </div>
+                    <div class="form-group">
+                        <label>Meta Description (Google Search Snippet)</label>
+                        <textarea id="seo-desc" rows="2" placeholder="Explore top free courses, digital services..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Keywords (Comma separated)</label>
+                        <input type="text" id="seo-keywords" placeholder="digital marketing, courses, smm panel">
+                    </div>
+                    <button onclick="saveSeoSettings()">Save SEO Configuration</button>
                 </div>
-                <div class="form-group">
-                    <label>Price / Package Rate</label>
-                    <input type="text" id="course-price" placeholder="Free or Rs. 500">
+
+                <!-- Section 3: Live Chat, WhatsApp & Custom Scripts Injector -->
+                <div class="panel-card full-width">
+                    <h3>⚡ Live Chat, WhatsApp & Custom Scripts Injector (Header/Footer HTML)</h3>
+                    <div class="form-group">
+                        <label>WhatsApp Support Number (Format: 923001234567)</label>
+                        <input type="text" id="script-whatsapp" placeholder="923001234567">
+                    </div>
+                    <div class="form-group">
+                        <label>Live Chat Widget Script (Tawk.to, Crisp, Messenger, etc.)</label>
+                        <textarea id="script-livechat" rows="3" placeholder="Paste full script code here..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Custom Header / Analytics Tracking Code (Google Analytics, Pixels)</label>
+                        <textarea id="script-analytics" rows="3" placeholder="<script>...</script>"></textarea>
+                    </div>
+                    <button onclick="saveScriptsSettings()">Deploy Scripts Live</button>
                 </div>
-                <div class="form-group">
-                    <label>Thumbnail Image URL</label>
-                    <input type="text" id="course-img" placeholder="https://example.com/image.jpg">
+
+                <!-- Section 4: Add Services / Courses (Mother Panel Style) -->
+                <div class="panel-card">
+                    <h3>➕ Add New Service / Course</h3>
+                    <div class="form-group">
+                        <label>Service / Course Title</label>
+                        <input type="text" id="item-title" placeholder="e.g. Instagram Followers / AI Course">
+                    </div>
+                    <div class="form-group">
+                        <label>Category / Section Name</label>
+                        <input type="text" id="item-category" placeholder="e.g. Free Courses / SMM Services">
+                    </div>
+                    <div class="form-group">
+                        <label>Price / Rate</label>
+                        <input type="text" id="item-price" placeholder="Free or Rs. 299">
+                    </div>
+                    <div class="form-group">
+                        <label>Thumbnail / Image URL</label>
+                        <input type="text" id="item-img" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="item-desc" rows="2" placeholder="Details..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Target Redirect / Action Link</label>
+                        <input type="text" id="item-link" placeholder="https://wa.me/... or download link">
+                    </div>
+                    <button onclick="addNewItem()">Publish Service / Course</button>
                 </div>
-                <div class="form-group">
-                    <label>Detailed Description</label>
-                    <textarea id="course-desc" rows="3" placeholder="Describe the course or service..."></textarea>
+
+                <!-- Section 5: Manage / Delete Existing Items -->
+                <div class="panel-card">
+                    <h3>⚙️ Manage & Delete Existing Items</h3>
+                    <div id="items-container" style="max-height: 400px; overflow-y: auto;">
+                        <p style="color: #64748b;">Loading items...</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Redirect Link / Download Link / WhatsApp Checkout Link</label>
-                    <input type="text" id="course-link" placeholder="Enter target URL">
-                </div>
-                <button onclick="addCourse()">Publish New Item</button>
             </div>
 
-            <!-- 3. Manage / Delete Existing Courses & Services -->
-            <div class="section-box">
-                <h3>Manage Published Items</h3>
-                <div id="courses-list-container">
-                    <p>Loading items...</p>
-                </div>
-            </div>
-
-            <button id="logout-btn" onclick="logoutAdmin()">Logout from Admin Panel</button>
+            <button class="btn-secondary" onclick="logoutAdmin()">Logout from Master Panel</button>
         </div>
     </div>
 
-    <!-- Firebase SDK Scripts -->
+    <!-- Firebase Scripts -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Firebase Configuration
         const firebaseConfig = {
           apiKey: "AIzaSyBCkU6QvkUWWuQckXsifIKqz54w2r3ngUU",
           authDomain: "basit-builds.firebaseapp.com",
@@ -135,134 +181,123 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check authentication state
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                document.getElementById('admin-section').style.display = 'block';
+                document.getElementById('admin-dashboard').style.display = 'block';
                 document.getElementById('login-section').style.display = 'none';
-                loadCourses();
-                loadGlobalSettings();
+                loadAllData();
             } else {
                 document.getElementById('login-section').style.display = 'block';
-                document.getElementById('admin-section').style.display = 'none';
+                document.getElementById('admin-dashboard').style.display = 'none';
             }
         });
 
         window.loginAdmin = function() {
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-password').value;
-            signInWithEmailAndPassword(auth, email, pass)
-                .catch((error) => { alert("Login Failed: " + error.message); });
+            signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Error: " + err.message));
         };
 
-        window.logoutAdmin = function() {
-            signOut(auth);
+        window.logoutAdmin = function() { signOut(auth); };
+
+        // Save Theme Settings
+        window.saveThemeSettings = async function() {
+            const preset = document.getElementById('theme-preset').value;
+            const color = document.getElementById('theme-color').value;
+            await setDoc(doc(db, "settings", "theme"), { preset, color }, { merge: true });
+            alert("Theme settings deployed successfully!");
         };
 
-        // Save Global Settings (WhatsApp, Live Chat, Theme Color, Font)
-        window.saveGlobalSettings = async function() {
-            const whatsapp = document.getElementById('setting-whatsapp').value;
-            const livechat = document.getElementById('setting-livechat').value;
-            const color = document.getElementById('setting-color').value;
-            const font = document.getElementById('setting-font').value;
-
-            try {
-                await setDoc(doc(db, "settings", "global"), { whatsapp, livechat, color, font });
-                alert("Global website settings updated successfully! Changes will reflect live on your website.");
-            } catch (e) {
-                alert("Error saving settings: " + e.message);
-            }
+        // Save SEO Settings
+        window.saveSeoSettings = async function() {
+            const title = document.getElementById('seo-title').value;
+            const desc = document.getElementById('seo-desc').value;
+            const keywords = document.getElementById('seo-keywords').value;
+            await setDoc(doc(db, "settings", "seo"), { title, desc, keywords }, { merge: true });
+            alert("SEO metadata updated successfully!");
         };
 
-        // Load Global Settings into Admin Form
-        async function loadGlobalSettings() {
-            try {
-                const docSnap = await getDoc(doc(db, "settings", "global"));
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    if(data.whatsapp) document.getElementById('setting-whatsapp').value = data.whatsapp;
-                    if(data.livechat) document.getElementById('setting-livechat').value = data.livechat;
-                    if(data.color) document.getElementById('setting-color').value = data.color;
-                    if(data.font) document.getElementById('setting-font').value = data.font;
-                }
-            } catch (e) {
-                console.log(e);
-            }
+        // Save Scripts & Live Chat Settings
+        window.saveScriptsSettings = async function() {
+            const whatsapp = document.getElementById('script-whatsapp').value;
+            const livechat = document.getElementById('script-livechat').value;
+            const analytics = document.getElementById('script-analytics').value;
+            await setDoc(doc(db, "settings", "scripts"), { whatsapp, livechat, analytics }, { merge: true });
+            alert("Live chat and tracking scripts injected successfully!");
+        };
+
+        // Add Item
+        window.addNewItem = async function() {
+            const title = document.getElementById('item-title').value;
+            const category = document.getElementById('item-category').value;
+            const price = document.getElementById('item-price').value;
+            const img = document.getElementById('item-img').value;
+            const desc = document.getElementById('item-desc').value;
+            const link = document.getElementById('item-link').value;
+
+            if(!title || !link) { alert("Title and Link are required!"); return; }
+
+            await addDoc(collection(db, "courses"), { title, category, price, img, desc, link, createdAt: new Date() });
+            alert("Item published successfully!");
+            document.getElementById('item-title').value = '';
+            document.getElementById('item-category').value = '';
+            document.getElementById('item-price').value = '';
+            document.getElementById('item-img').value = '';
+            document.getElementById('item-desc').value = '';
+            document.getElementById('item-link').value = '';
+            loadItems();
+        };
+
+        // Load Items
+        async function loadItems() {
+            const container = document.getElementById('items-container');
+            const snap = await getDocs(collection(db, "courses"));
+            container.innerHTML = "";
+            if(snap.empty) { container.innerHTML = "<p>No services/courses found.</p>"; return; }
+            
+            snap.forEach((d) => {
+                const data = d.data();
+                const div = document.createElement('div');
+                div.className = 'item-row';
+                div.innerHTML = `
+                    <div><strong>${data.title}</strong><br><small style="color:#94a3b8;">${data.category || 'General'} | ${data.price || 'Free'}</small></div>
+                    <button class="btn-danger" style="width:auto; padding:6px 12px; font-size:12px;" onclick="deleteItem('${d.id}')">Delete</button>
+                `;
+                container.appendChild(div);
+            });
         }
 
-        // Add Course / Service Function
-        window.addCourse = async function() {
-            const title = document.getElementById('course-title').value;
-            const category = document.getElementById('course-category').value;
-            const price = document.getElementById('course-price').value;
-            const img = document.getElementById('course-img').value;
-            const desc = document.getElementById('course-desc').value;
-            const link = document.getElementById('course-link').value;
-
-            if(!title || !link) {
-                alert("Title and Link fields are required!");
-                return;
-            }
-
-            try {
-                await addDoc(collection(db, "courses"), {
-                    title, category, price, img, desc, link,
-                    createdAt: new Date()
-                });
-                alert("Item published successfully!");
-                document.getElementById('course-title').value = '';
-                document.getElementById('course-category').value = '';
-                document.getElementById('course-price').value = '';
-                document.getElementById('course-img').value = '';
-                document.getElementById('course-desc').value = '';
-                document.getElementById('course-link').value = '';
-                loadCourses();
-            } catch (e) {
-                alert("Error publishing: " + e.message);
+        window.deleteItem = async function(id) {
+            if(confirm("Delete this item?")) {
+                await deleteDoc(doc(db, "courses", id));
+                alert("Deleted!");
+                loadItems();
             }
         };
 
-        // Load Courses / Services List
-        async function loadCourses() {
-            const container = document.getElementById('courses-list-container');
-            container.innerHTML = "Loading items...";
-            try {
-                const querySnapshot = await getDocs(collection(db, "courses"));
-                container.innerHTML = "";
-                if(querySnapshot.empty) {
-                    container.innerHTML = "<p style='color: #888;'>No courses or services found.</p>";
-                    return;
-                }
-                querySnapshot.forEach((document) => {
-                    const data = document.data();
-                    const div = document.createElement('div');
-                    div.className = 'course-item';
-                    div.innerHTML = `
-                        <div>
-                            <strong>${data.title}</strong> <span class="badge">${data.price || 'Free'}</span><br>
-                            <small style="color: #aaa;">Category: ${data.category || 'General'}</small>
-                        </div>
-                        <button class="danger-btn" style="width: auto; padding: 6px 14px;" onclick="deleteCourse('${document.id}')">Delete</button>
-                    `;
-                    container.appendChild(div);
-                });
-            } catch (e) {
-                container.innerHTML = "Error loading items.";
+        async function loadAllData() {
+            loadItems();
+            // Load theme
+            const tDoc = await getDoc(doc(db, "settings", "theme"));
+            if(tDoc.exists()) {
+                if(tDoc.data().preset) document.getElementById('theme-preset').value = tDoc.data().preset;
+                if(tDoc.data().color) document.getElementById('theme-color').value = tDoc.data().color;
+            }
+            // Load SEO
+            const sDoc = await getDoc(doc(db, "settings", "seo"));
+            if(sDoc.exists()) {
+                document.getElementById('seo-title').value = sDoc.data().title || '';
+                document.getElementById('seo-desc').value = sDoc.data().desc || '';
+                document.getElementById('seo-keywords').value = sDoc.data().keywords || '';
+            }
+            // Load Scripts
+            const scDoc = await getDoc(doc(db, "settings", "scripts"));
+            if(scDoc.exists()) {
+                document.getElementById('script-whatsapp').value = scDoc.data().whatsapp || '';
+                document.getElementById('script-livechat').value = scDoc.data().livechat || '';
+                document.getElementById('script-analytics').value = scDoc.data().analytics || '';
             }
         }
-
-        // Delete Course / Service
-        window.deleteCourse = async function(id) {
-            if(confirm("Are you sure you want to delete this item?")) {
-                try {
-                    await deleteDoc(doc(db, "courses", id));
-                    alert("Item deleted successfully!");
-                    loadCourses();
-                } catch (e) {
-                    alert("Error deleting: " + e.message);
-                }
-            }
-        };
     </script>
 </body>
 </html>
