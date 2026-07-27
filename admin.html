@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basit Builds - Admin Panel</title>
+    <title>Basit Builds - Master SMM & Website Admin Panel</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { color: #333; text-align: center; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-        button { background: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
-        button:hover { background: #45a049; }
-        #logout-btn { background: #f44336; margin-top: 10px; }
-        #logout-btn:hover { background: #da190b; }
+        body { font-family: Arial, sans-serif; background: #1e1e2f; color: #fff; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: #2a2a40; padding: 30px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        h2, h3 { color: #00d2ff; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #ccc; }
+        input, textarea, select { width: 100%; padding: 12px; background: #1a1a29; border: 1px solid #444; color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        input:focus, textarea:focus { border-color: #00d2ff; outline: none; }
+        button { background: #00d2ff; color: #000; padding: 12px 20px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #00a8cc; color: #fff; }
+        .danger-btn { background: #ff4d4d; color: #fff; }
+        .danger-btn:hover { background: #cc0000; }
+        #logout-btn { background: #444; color: #fff; margin-top: 30px; }
+        #logout-btn:hover { background: #666; }
         #login-section, #admin-section { display: none; }
+        .course-item { background: #1a1a29; padding: 15px; margin-bottom: 12px; border-radius: 6px; border-left: 5px solid #00d2ff; display: flex; justify-content: space-between; align-items: center; }
+        .section-box { background: #222238; padding: 20px; border: 1px solid #33334d; border-radius: 8px; margin-bottom: 25px; }
+        .badge { background: #00d2ff; color: #000; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -23,35 +29,89 @@
     <div class="container">
         <!-- Login Section -->
         <div id="login-section">
-            <h2>Admin Login - Basit Builds</h2>
+            <h2>Basit Builds - Admin Login</h2>
             <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="login-email" placeholder="admin@email.com">
+                <label>Admin Email</label>
+                <input type="email" id="login-email" placeholder="admin@basitbuilds.com">
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="login-password" placeholder="Password">
+                <input type="password" id="login-password" placeholder="••••••••">
             </div>
-            <button onclick="loginAdmin()">Login</button>
+            <button onclick="loginAdmin()">Login to Master Dashboard</button>
         </div>
 
         <!-- Admin Dashboard Section -->
         <div id="admin-section">
-            <h2>Basit Builds - Add Course</h2>
-            <div class="form-group">
-                <label>Course Title</label>
-                <input type="text" id="course-title" placeholder="Enter course title">
+            <h2>Basit Builds - WordPress / SMM Style Master Admin</h2>
+            <p style="text-align: center; color: #aaa;">A to Z Global Website & Course Control Panel</p>
+
+            <!-- 1. Global Website Settings & Live Chat / WhatsApp Control -->
+            <div class="section-box">
+                <h3>Global Website & Contact Settings</h3>
+                <div class="form-group">
+                    <label>WhatsApp Number (with country code, e.g., 923001234567)</label>
+                    <input type="text" id="setting-whatsapp" placeholder="923001234567">
+                </div>
+                <div class="form-group">
+                    <label>Live Chat Widget Script / HTML (e.g., Tawk.to, Crisp, or Messenger Code)</label>
+                    <textarea id="setting-livechat" rows="4" placeholder="Paste your live chat tracking code or script here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Website Main Theme Color</label>
+                    <input type="color" id="setting-color" value="#00d2ff" style="height: 45px; padding: 2px; cursor: pointer;">
+                </div>
+                <div class="form-group">
+                    <label>Select Global Typography / Font</label>
+                    <select id="setting-font">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="'Courier New', Courier, monospace">Courier New</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="'Times New Roman', Times, serif">Times New Roman</option>
+                    </select>
+                </div>
+                <button onclick="saveGlobalSettings()">Save All Website Settings</button>
             </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea id="course-desc" rows="4" placeholder="Enter course details"></textarea>
+
+            <!-- 2. Add New Course / Service (SMM Panel Style) -->
+            <div class="section-box">
+                <h3>Add New Course / Service / Item</h3>
+                <div class="form-group">
+                    <label>Title / Service Name</label>
+                    <input type="text" id="course-title" placeholder="e.g. YouTube Copy Paste Course">
+                </div>
+                <div class="form-group">
+                    <label>Category (e.g., Free Courses, Premium, SMM)</label>
+                    <input type="text" id="course-category" placeholder="Free Courses">
+                </div>
+                <div class="form-group">
+                    <label>Price / Package Rate</label>
+                    <input type="text" id="course-price" placeholder="Free or Rs. 500">
+                </div>
+                <div class="form-group">
+                    <label>Thumbnail Image URL</label>
+                    <input type="text" id="course-img" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label>Detailed Description</label>
+                    <textarea id="course-desc" rows="3" placeholder="Describe the course or service..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Redirect Link / Download Link / WhatsApp Checkout Link</label>
+                    <input type="text" id="course-link" placeholder="Enter target URL">
+                </div>
+                <button onclick="addCourse()">Publish New Item</button>
             </div>
-            <div class="form-group">
-                <label>Course Link / Download Link</label>
-                <input type="text" id="course-link" placeholder="Enter link">
+
+            <!-- 3. Manage / Delete Existing Courses & Services -->
+            <div class="section-box">
+                <h3>Manage Published Items</h3>
+                <div id="courses-list-container">
+                    <p>Loading items...</p>
+                </div>
             </div>
-            <button onclick="addCourse()">Upload Course</button>
-            <button id="logout-btn" onclick="logoutAdmin()">Logout</button>
+
+            <button id="logout-btn" onclick="logoutAdmin()">Logout from Admin Panel</button>
         </div>
     </div>
 
@@ -59,7 +119,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         // Firebase Configuration
         const firebaseConfig = {
@@ -75,11 +135,13 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check login status
+        // Check authentication state
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('admin-section').style.display = 'block';
                 document.getElementById('login-section').style.display = 'none';
+                loadCourses();
+                loadGlobalSettings();
             } else {
                 document.getElementById('login-section').style.display = 'block';
                 document.getElementById('admin-section').style.display = 'none';
@@ -90,36 +152,115 @@
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-password').value;
             signInWithEmailAndPassword(auth, email, pass)
-                .catch((error) => { alert("Error: " + error.message); });
+                .catch((error) => { alert("Login Failed: " + error.message); });
         };
 
         window.logoutAdmin = function() {
             signOut(auth);
         };
 
+        // Save Global Settings (WhatsApp, Live Chat, Theme Color, Font)
+        window.saveGlobalSettings = async function() {
+            const whatsapp = document.getElementById('setting-whatsapp').value;
+            const livechat = document.getElementById('setting-livechat').value;
+            const color = document.getElementById('setting-color').value;
+            const font = document.getElementById('setting-font').value;
+
+            try {
+                await setDoc(doc(db, "settings", "global"), { whatsapp, livechat, color, font });
+                alert("Global website settings updated successfully! Changes will reflect live on your website.");
+            } catch (e) {
+                alert("Error saving settings: " + e.message);
+            }
+        };
+
+        // Load Global Settings into Admin Form
+        async function loadGlobalSettings() {
+            try {
+                const docSnap = await getDoc(doc(db, "settings", "global"));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if(data.whatsapp) document.getElementById('setting-whatsapp').value = data.whatsapp;
+                    if(data.livechat) document.getElementById('setting-livechat').value = data.livechat;
+                    if(data.color) document.getElementById('setting-color').value = data.color;
+                    if(data.font) document.getElementById('setting-font').value = data.font;
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
+        // Add Course / Service Function
         window.addCourse = async function() {
             const title = document.getElementById('course-title').value;
+            const category = document.getElementById('course-category').value;
+            const price = document.getElementById('course-price').value;
+            const img = document.getElementById('course-img').value;
             const desc = document.getElementById('course-desc').value;
             const link = document.getElementById('course-link').value;
 
             if(!title || !link) {
-                alert("Please fill required fields!");
+                alert("Title and Link fields are required!");
                 return;
             }
 
             try {
                 await addDoc(collection(db, "courses"), {
-                    title: title,
-                    description: desc,
-                    link: link,
+                    title, category, price, img, desc, link,
                     createdAt: new Date()
                 });
-                alert("Course added successfully!");
+                alert("Item published successfully!");
                 document.getElementById('course-title').value = '';
+                document.getElementById('course-category').value = '';
+                document.getElementById('course-price').value = '';
+                document.getElementById('course-img').value = '';
                 document.getElementById('course-desc').value = '';
                 document.getElementById('course-link').value = '';
+                loadCourses();
             } catch (e) {
-                alert("Error adding document: " + e.message);
+                alert("Error publishing: " + e.message);
+            }
+        };
+
+        // Load Courses / Services List
+        async function loadCourses() {
+            const container = document.getElementById('courses-list-container');
+            container.innerHTML = "Loading items...";
+            try {
+                const querySnapshot = await getDocs(collection(db, "courses"));
+                container.innerHTML = "";
+                if(querySnapshot.empty) {
+                    container.innerHTML = "<p style='color: #888;'>No courses or services found.</p>";
+                    return;
+                }
+                querySnapshot.forEach((document) => {
+                    const data = document.data();
+                    const div = document.createElement('div');
+                    div.className = 'course-item';
+                    div.innerHTML = `
+                        <div>
+                            <strong>${data.title}</strong> <span class="badge">${data.price || 'Free'}</span><br>
+                            <small style="color: #aaa;">Category: ${data.category || 'General'}</small>
+                        </div>
+                        <button class="danger-btn" style="width: auto; padding: 6px 14px;" onclick="deleteCourse('${document.id}')">Delete</button>
+                    `;
+                    container.appendChild(div);
+                });
+            } catch (e) {
+                container.innerHTML = "Error loading items.";
+            }
+        }
+
+        // Delete Course / Service
+        window.deleteCourse = async function(id) {
+            if(confirm("Are you sure you want to delete this item?")) {
+                try {
+                    await deleteDoc(doc(db, "courses", id));
+                    alert("Item deleted successfully!");
+                    loadCourses();
+                } catch (e) {
+                    alert("Error deleting: " + e.message);
+                }
             }
         };
     </script>
