@@ -3,112 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Basit Builds Admin Panel</title>
+    <title>Welcome to Basit Builds Admin Panel - Master Control</title>
     <style>
-        body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; margin: 0; padding: 20px; }
-        .box { max-width: 850px; margin: auto; background: #1e293b; padding: 30px; border-radius: 10px; border: 1px solid #334155; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        h2, h3 { color: #38bdf8; text-align: center; }
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #111827;
+            --border-color: #1f2937;
+            --accent: #38bdf8;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --danger: #ef4444;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
+        .wrapper { max-width: 950px; margin: auto; }
+        .box { background: var(--card-bg); padding: 35px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
+        h2, h3 { color: var(--accent); text-align: center; margin-top: 0; }
+        .subtitle { text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 25px; }
         .group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 6px; font-weight: bold; color: #cbd5e1; font-size: 14px; }
-        input, textarea { width: 100%; padding: 12px; background: #0f172a; border: 1px solid #334155; color: #fff; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-        input:focus, textarea:focus { border-color: #38bdf8; outline: none; }
-        button { background: #38bdf8; color: #0f172a; padding: 12px; border: none; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; transition: 0.2s; }
-        button:hover { opacity: 0.9; }
-        .danger { background: #ef4444; color: #fff; }
-        .danger:hover { background: #dc2626; }
-        .card-item { background: #0f172a; padding: 15px; margin-top: 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #38bdf8; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #e5e7eb; font-size: 13px; }
+        input, textarea, select { width: 100%; padding: 12px; background: #030712; border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; box-sizing: border-box; font-size: 14px; transition: 0.2s; }
+        input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15); }
+        button { background: var(--accent); color: #0b0f19; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 15px; transition: 0.2s; box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3); }
+        button:hover { opacity: 0.9; transform: translateY(-1px); }
+        .danger-btn { background: var(--danger); color: #fff; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+        .card-item { background: #030712; padding: 15px; margin-top: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--accent); }
+        .section-divider { border-color: var(--border-color); margin: 35px 0; }
         #login-panel, #dashboard-panel { display: none; }
+        .badge { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 11px; }
     </style>
 </head>
 <body>
 
-    <div class="box">
-        <!-- Login Form -->
-        <div id="login-panel">
-            <h2>Welcome to Basit Builds Admin Panel</h2>
-            <div class="group">
-                <label>Admin Email</label>
-                <input type="email" id="l-email" placeholder="admin@email.com">
+    <div class="wrapper">
+        <div class="box">
+            <!-- Login Screen -->
+            <div id="login-panel">
+                <h2>Welcome to Basit Builds Admin Panel</h2>
+                <p class="subtitle">Secure Master Authentication</p>
+                <div class="group">
+                    <label>Admin Email</label>
+                    <input type="email" id="l-email" placeholder="admin@basitbuilds.com">
+                </div>
+                <div class="group">
+                    <label>Password</label>
+                    <input type="password" id="l-pass" placeholder="••••••••">
+                </div>
+                <button onclick="adminLogin()">Login to Dashboard</button>
             </div>
-            <div class="group">
-                <label>Password</label>
-                <input type="password" id="l-pass" placeholder="Password">
-            </div>
-            <button onclick="adminLogin()">Login to Dashboard</button>
-        </div>
 
-        <!-- Dashboard Panel -->
-        <div id="dashboard-panel">
-            <h2>Welcome to Basit Builds Admin Panel</h2>
-            <p style="text-align: center; color: #94a3b8; font-size: 13px;">Master SMM & WordPress Style Control Center</p>
-            
-            <hr style="border-color: #334155; margin: 25px 0;">
-            
-            <!-- 1. Website Branding, SEO & Chat Settings -->
-            <h3>1. Website Branding, SEO & Live Chat Settings</h3>
-            <div class="group">
-                <label>Website Logo URL (Image Link)</label>
-                <input type="text" id="cfg-logo" placeholder="https://example.com/logo.png">
-            </div>
-            <div class="group">
-                <label>Google SEO Title (For Top Google Ranking)</label>
-                <input type="text" id="cfg-seotitle" placeholder="Basit Builds - Free Courses & Digital Services">
-            </div>
-            <div class="group">
-                <label>Google SEO Meta Description (Search Snippet)</label>
-                <textarea id="cfg-seodesc" rows="2" placeholder="Explore top digital courses..."></textarea>
-            </div>
-            <div class="group">
-                <label>WhatsApp Support Number (e.g. 923001234567)</label>
-                <input type="text" id="cfg-whatsapp" placeholder="923001234567">
-            </div>
-            <div class="group">
-                <label>Live Chat / Messenger Script Code (HTML/JS)</label>
-                <textarea id="cfg-livechat" rows="3" placeholder="Paste your Tawk.to, Messenger, or Live Chat script here..."></textarea>
-            </div>
-            <button onclick="saveGlobalSettings()">Save All Settings</button>
+            <!-- Master Dashboard -->
+            <div id="dashboard-panel">
+                <h2>Welcome to Basit Builds Admin Panel</h2>
+                <p class="subtitle">Master Control Center - Separate Modules</p>
+                
+                <hr class="section-divider">
+                
+                <!-- SECTION 1: Website Branding, SEO & Chat -->
+                <h3>1. Website Branding, SEO & Live Chat Settings</h3>
+                <div class="group">
+                    <label>Website Logo URL</label>
+                    <input type="text" id="cfg-logo" placeholder="https://...">
+                </div>
+                <div class="group">
+                    <label>Google SEO Title (Top Ranking)</label>
+                    <input type="text" id="cfg-seotitle" placeholder="Basit Builds - Free Courses">
+                </div>
+                <div class="group">
+                    <label>Google SEO Meta Description</label>
+                    <textarea id="cfg-seodesc" rows="2" placeholder="Meta description..."></textarea>
+                </div>
+                <div class="group">
+                    <label>WhatsApp Support Number</label>
+                    <input type="text" id="cfg-whatsapp" placeholder="923001234567">
+                </div>
+                <div class="group">
+                    <label>Live Chat / Messenger Script Code</label>
+                    <textarea id="cfg-livechat" rows="2" placeholder="Paste Tawk.to / Script code..."></textarea>
+                </div>
+                <button onclick="saveGlobalSettings()">Save Branding & SEO</button>
 
-            <hr style="border-color: #334155; margin: 25px 0;">
+                <hr class="section-divider">
 
-            <!-- 2. Add New Course / Service -->
-            <h3>2. Add New Course / Service</h3>
-            <div class="group">
-                <label>Course / Service Title</label>
-                <input type="text" id="c-title" placeholder="Enter course title">
-            </div>
-            <div class="group">
-                <label>Category</label>
-                <input type="text" id="c-cat" placeholder="e.g. Free Courses">
-            </div>
-            <div class="group">
-                <label>Price</label>
-                <input type="text" id="c-price" placeholder="Free or Rs. 500">
-            </div>
-            <div class="group">
-                <label>Thumbnail / Image URL</label>
-                <input type="text" id="c-img" placeholder="Paste image link">
-            </div>
-            <div class="group">
-                <label>Description</label>
-                <textarea id="c-desc" rows="2" placeholder="Course details..."></textarea>
-            </div>
-            <div class="group">
-                <label>Redirect / Download / WhatsApp Link</label>
-                <input type="text" id="c-link" placeholder="Enter link">
-            </div>
-            <button onclick="addNewCourse()">Publish Course / Item</button>
+                <!-- SECTION 2: Website Text, Words & Static Pages Editor -->
+                <h3>2. Website Text & Pages Editor (About, Disclaimer & Main Words)</h3>
+                <div class="group">
+                    <label>Main Website Heading / Title Text</label>
+                    <input type="text" id="txt-mainheading" placeholder="Basit Builds Digital Platform">
+                </div>
+                <div class="group">
+                    <label>About Us Page Text</label>
+                    <textarea id="page-about" rows="3" placeholder="Write details about Basit Builds..."></textarea>
+                </div>
+                <div class="group">
+                    <label>Disclaimer Page Text</label>
+                    <textarea id="page-disclaimer" rows="3" placeholder="Write website disclaimer terms..."></textarea>
+                </div>
+                <button onclick="saveWebsiteTexts()">Save Texts & Pages Content</button>
 
-            <hr style="border-color: #334155; margin: 25px 0;">
+                <hr class="section-divider">
 
-            <!-- 3. Manage & Delete Existing Courses -->
-            <h3>3. Manage & Delete Existing Courses</h3>
-            <div id="manage-list"><p style="color: #94a3b8;">Loading courses...</p></div>
+                <!-- SECTION 3: Automatic Visitor Popup / News Message -->
+                <h3>3. Automatic Visitor Popup / News Message</h3>
+                <div class="group">
+                    <label>Popup Title / Heading</label>
+                    <input type="text" id="popup-title" placeholder="Important Announcement!">
+                </div>
+                <div class="group">
+                    <label>Popup Message (Shown to Visitors)</label>
+                    <textarea id="popup-desc" rows="2" placeholder="Welcome to our platform! Check out new free courses..."></textarea>
+                </div>
+                <button onclick="savePopupSettings()">Publish Popup Message</button>
 
-            <button class="danger" style="margin-top: 35px;" onclick="adminLogout()">Logout</button>
+                <hr class="section-divider">
+
+                <!-- SECTION 4: Categories Management -->
+                <h3>4. Manage Categories</h3>
+                <div class="group">
+                    <label>New Category Name</label>
+                    <input type="text" id="cat-name" placeholder="e.g. Free Courses, SMM Tools">
+                </div>
+                <button onclick="addCategory()">Add Category</button>
+                <div id="categories-list" style="margin-top: 15px;"><p style="color:var(--text-muted)">Loading categories...</p></div>
+
+                <hr class="section-divider">
+
+                <!-- SECTION 5: Dedicated Courses & Services Manager -->
+                <h3>5. Dedicated Courses & Services Manager</h3>
+                <div class="group">
+                    <label>Course / Service Title</label>
+                    <input type="text" id="c-title" placeholder="Course name">
+                </div>
+                <div class="group">
+                    <label>Category Name</label>
+                    <input type="text" id="c-cat" placeholder="Category">
+                </div>
+                <div class="group">
+                    <label>Price</label>
+                    <input type="text" id="c-price" placeholder="Free or Rs. 500">
+                </div>
+                <div class="group">
+                    <label>Thumbnail URL</label>
+                    <input type="text" id="c-img" placeholder="Image link">
+                </div>
+                <div class="group">
+                    <label>Description</label>
+                    <textarea id="c-desc" rows="2" placeholder="Course info..."></textarea>
+                </div>
+                <div class="group">
+                    <label>Redirect / Action Link</label>
+                    <input type="text" id="c-link" placeholder="Link">
+                </div>
+                <button onclick="addNewCourse()">Publish New Course</button>
+                
+                <h4 style="color: var(--accent); margin-top: 25px;">All Existing Courses & Services List:</h4>
+                <div id="manage-list" style="margin-top: 10px;"><p style="color:var(--text-muted)">Loading courses...</p></div>
+
+                <hr class="section-divider">
+
+                <!-- SECTION 6: Blog Section Management -->
+                <h3>6. Add & Manage Blog Posts</h3>
+                <div class="group">
+                    <label>Blog Title</label>
+                    <input type="text" id="b-title" placeholder="Blog post title">
+                </div>
+                <div class="group">
+                    <label>Blog Image URL</label>
+                    <input type="text" id="b-img" placeholder="Image link">
+                </div>
+                <div class="group">
+                    <label>Blog Content / Article</label>
+                    <textarea id="b-content" rows="3" placeholder="Write article content..."></textarea>
+                </div>
+                <button onclick="addBlogPost()">Publish Blog Post</button>
+                <div id="blogs-list" style="margin-top: 15px;"><p style="color:var(--text-muted)">Loading blogs...</p></div>
+
+                <button class="danger-btn" style="margin-top: 40px;" onclick="adminLogout()">Logout from Panel</button>
+            </div>
         </div>
     </div>
 
-    <!-- Firebase SDK Scripts -->
+    <!-- Firebase Script SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -127,12 +201,11 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Check Login Status
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('dashboard-panel').style.display = 'block';
                 document.getElementById('login-panel').style.display = 'none';
-                loadAdminData();
+                loadAllAdminData();
             } else {
                 document.getElementById('login-panel').style.display = 'block';
                 document.getElementById('dashboard-panel').style.display = 'none';
@@ -142,28 +215,56 @@
         window.adminLogin = function() {
             const email = document.getElementById('l-email').value;
             const pass = document.getElementById('l-pass').value;
-            signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Login Error: " + e.message));
+            signInWithEmailAndPassword(auth, email, pass).catch(e => alert("Login Failed: " + e.message));
         };
 
         window.adminLogout = function() { signOut(auth); };
 
-        // Save Global Settings (Logo, SEO, WhatsApp, Live Chat)
         window.saveGlobalSettings = async function() {
             const logo = document.getElementById('cfg-logo').value;
             const seotitle = document.getElementById('cfg-seotitle').value;
             const seodesc = document.getElementById('cfg-seodesc').value;
             const whatsapp = document.getElementById('cfg-whatsapp').value;
             const livechat = document.getElementById('cfg-livechat').value;
-            
-            try {
-                await setDoc(doc(db, "settings", "global"), { logo, seotitle, seodesc, whatsapp, livechat }, { merge: true });
-                alert("Settings saved successfully in Firebase database!");
-            } catch (e) {
-                alert("Error saving: " + e.message);
-            }
+            await setDoc(doc(db, "settings", "global"), { logo, seotitle, seodesc, whatsapp, livechat }, { merge: true });
+            alert("Branding & SEO settings updated!");
         };
 
-        // Add Course Function
+        window.saveWebsiteTexts = async function() {
+            const mainheading = document.getElementById('txt-mainheading').value;
+            const about = document.getElementById('page-about').value;
+            const disclaimer = document.getElementById('page-disclaimer').value;
+            await setDoc(doc(db, "settings", "texts"), { mainheading, about, disclaimer }, { merge: true });
+            alert("Website texts and pages updated successfully!");
+        };
+
+        window.savePopupSettings = async function() {
+            const title = document.getElementById('popup-title').value;
+            const desc = document.getElementById('popup-desc').value;
+            await setDoc(doc(db, "settings", "popup"), { title, desc, active: true }, { merge: true });
+            alert("Automatic visitor popup message published!");
+        };
+
+        window.addCategory = async function() {
+            const name = document.getElementById('cat-name').value;
+            if(!name) return alert("Enter category name");
+            await addDoc(collection(db, "categories"), { name });
+            document.getElementById('cat-name').value = '';
+            loadCategories();
+            alert("Category added!");
+        };
+
+        async function loadCategories() {
+            const cList = document.getElementById('categories-list');
+            const snap = await getDocs(collection(db, "categories"));
+            cList.innerHTML = "";
+            if(snap.empty) { cList.innerHTML = "<p style='color:var(--text-muted)'>No categories found.</p>"; return; }
+            snap.forEach(d => {
+                const data = d.data();
+                cList.innerHTML += `<div class="card-item"><span>${data.name}</span> <button class="danger-btn" style="width:auto; padding:5px 10px; font-size:12px;" onclick="deleteDocItem('categories', '${d.id}', loadCategories)">Delete</button></div>`;
+            });
+        }
+
         window.addNewCourse = async function() {
             const title = document.getElementById('c-title').value;
             const category = document.getElementById('c-cat').value;
@@ -171,76 +272,88 @@
             const img = document.getElementById('c-img').value;
             const desc = document.getElementById('c-desc').value;
             const link = document.getElementById('c-link').value;
-
-            if(!title || !link) { alert("Please fill Title and Link fields!"); return; }
-
-            try {
-                await addDoc(collection(db, "courses"), { title, category, price, img, desc, link, createdAt: new Date() });
-                alert("Course published successfully!");
-                document.getElementById('c-title').value = '';
-                document.getElementById('c-cat').value = '';
-                document.getElementById('c-price').value = '';
-                document.getElementById('c-img').value = '';
-                document.getElementById('c-desc').value = '';
-                document.getElementById('c-link').value = '';
-                loadCoursesList();
-            } catch (e) {
-                alert("Error: " + e.message);
-            }
+            if(!title || !link) return alert("Title and Link are required");
+            await addDoc(collection(db, "courses"), { title, category, price, img, desc, link });
+            document.getElementById('c-title').value = '';
+            document.getElementById('c-cat').value = '';
+            document.getElementById('c-price').value = '';
+            document.getElementById('c-img').value = '';
+            document.getElementById('c-desc').value = '';
+            document.getElementById('c-link').value = '';
+            loadCourses();
+            alert("Course published successfully!");
         };
 
-        // Load Courses for Management
-        async function loadCoursesList() {
-            const container = document.getElementById('manage-list');
-            try {
-                const snap = await getDocs(collection(db, "courses"));
-                container.innerHTML = "";
-                if(snap.empty) { container.innerHTML = "<p style='color: #94a3b8;'>No courses found.</p>"; return; }
-                
-                snap.forEach((d) => {
-                    const data = d.data();
-                    const div = document.createElement('div');
-                    div.className = 'card-item';
-                    div.innerHTML = `
-                        <span><strong>${data.title}</strong> (${data.price || 'Free'})</span>
-                        <button class="danger" style="width: auto; padding: 6px 12px; font-size: 13px; margin:0;" onclick="removeCourse('${d.id}')">Delete</button>
-                    `;
-                    container.appendChild(div);
-                });
-            } catch (e) {
-                container.innerHTML = "<p style='color: #ef4444;'>Error loading courses.</p>";
-            }
+        async function loadCourses() {
+            const mList = document.getElementById('manage-list');
+            const snap = await getDocs(collection(db, "courses"));
+            mList.innerHTML = "";
+            if(snap.empty) { mList.innerHTML = "<p style='color:var(--text-muted)'>No courses or services found.</p>"; return; }
+            snap.forEach(d => {
+                const data = d.data();
+                mList.innerHTML += `<div class="card-item"><span><strong>${data.title}</strong> <span class="badge">${data.price || 'Free'}</span></span> <button class="danger-btn" style="width:auto; padding:5px 10px; font-size:12px;" onclick="deleteDocItem('courses', '${d.id}', loadCourses)">Delete</button></div>`;
+            });
         }
 
-        // Delete Course
-        window.removeCourse = async function(id) {
-            if(confirm("Are you sure you want to delete this course?")) {
-                try {
-                    await deleteDoc(doc(db, "courses", id));
-                    alert("Course deleted successfully!");
-                    loadCoursesList();
-                } catch (e) {
-                    alert("Error deleting: " + e.message);
-                }
+        window.addBlogPost = async function() {
+            const title = document.getElementById('b-title').value;
+            const img = document.getElementById('b-img').value;
+            const content = document.getElementById('b-content').value;
+            if(!title) return alert("Title required");
+            await addDoc(collection(db, "blogs"), { title, img, content, date: new Date().toLocaleDateString() });
+            document.getElementById('b-title').value = '';
+            document.getElementById('b-img').value = '';
+            document.getElementById('b-content').value = '';
+            loadBlogs();
+            alert("Blog published!");
+        };
+
+        async function loadBlogs() {
+            const bList = document.getElementById('blogs-list');
+            const snap = await getDocs(collection(db, "blogs"));
+            bList.innerHTML = "";
+            if(snap.empty) { bList.innerHTML = "<p style='color:var(--text-muted)'>No blogs found.</p>"; return; }
+            snap.forEach(d => {
+                const data = d.data();
+                bList.innerHTML += `<div class="card-item"><span><strong>${data.title}</strong></span> <button class="danger-btn" style="width:auto; padding:5px 10px; font-size:12px;" onclick="deleteDocItem('blogs', '${d.id}', loadBlogs)">Delete</button></div>`;
+            });
+        }
+
+        window.deleteDocItem = async function(col, id, callback) {
+            if(confirm("Are you sure you want to delete this item?")) {
+                await deleteDoc(doc(db, col, id));
+                callback();
             }
         };
 
-        // Load Existing Settings into Admin Panel
-        async function loadAdminData() {
-            loadCoursesList();
+        async function loadAllAdminData() {
+            loadCategories();
+            loadBlogs();
+            loadCourses();
             try {
-                const docSnap = await getDoc(doc(db, "settings", "global"));
-                if(docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.getElementById('cfg-logo').value = data.logo || '';
-                    document.getElementById('cfg-seotitle').value = data.seotitle || '';
-                    document.getElementById('cfg-seodesc').value = data.seodesc || '';
-                    document.getElementById('cfg-whatsapp').value = data.whatsapp || '';
-                    document.getElementById('cfg-livechat').value = data.livechat || '';
+                const gSnap = await getDoc(doc(db, "settings", "global"));
+                if(gSnap.exists()) {
+                    const d = gSnap.data();
+                    document.getElementById('cfg-logo').value = d.logo || '';
+                    document.getElementById('cfg-seotitle').value = d.seotitle || '';
+                    document.getElementById('cfg-seodesc').value = d.seodesc || '';
+                    document.getElementById('cfg-whatsapp').value = d.whatsapp || '';
+                    document.getElementById('cfg-livechat').value = d.livechat || '';
                 }
-            } catch (e) {
-                console.log(e);
-            }
+                const tSnap = await getDoc(doc(db, "settings", "texts"));
+                if(tSnap.exists()) {
+                    const d = tSnap.data();
+                    document.getElementById('txt-mainheading').value = d.mainheading || '';
+                    document.getElementById('page-about').value = d.about || '';
+                    document.getElementById('page-disclaimer').value = d.disclaimer || '';
+                }
+                const pSnap = await getDoc(doc(db, "settings", "popup"));
+                if(pSnap.exists()) {
+                    const d = pSnap.data();
+                    document.getElementById('popup-title').value = d.title || '';
+                    document.getElementById('popup-desc').value = d.desc || '';
+                }
+            } catch(e) { console.log(e); }
         }
     </script>
 </body>
