@@ -296,14 +296,14 @@
     </div>
 
     <script>
-        // Aapka Firebase Configuration (Linked to your project securely)
+        // Aapki Asal Firebase Configuration (basit-builds)
         const firebaseConfig = {
-            apiKey: "AIzaSyD...", // Aapki real API key yahan configured hai
-            authDomain: "basitbuilds.firebaseapp.com",
-            projectId: "basitbuilds",
-            storageBucket: "basitbuilds.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
+            apiKey: "AIzaSyBCkU6QvkUWWuQckXsifIKqz54w2r3ngUU",
+            authDomain: "basit-builds.firebaseapp.com",
+            projectId: "basit-builds",
+            storageBucket: "basit-builds.firebasestorage.app",
+            messagingSenderId: "1067815599250",
+            appId: "1:1067815599250:web:ddbf5c0bf831cd59253a4b"
         };
 
         if (!firebase.apps.length) {
@@ -315,7 +315,6 @@
         // Security Authentication Handler
         auth.onAuthStateChanged((user) => {
             if (user) {
-                // Strict check: Sirf authorized user hi enter ho sakta hai
                 document.getElementById('authOverlay').style.display = 'none';
                 loadCloudData();
             } else {
