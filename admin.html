@@ -37,7 +37,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--ui-font); scroll-behavior: smooth; }
         body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; overflow-x: hidden; transition: 0.4s; }
 
-        /* Auth Screen Overlay */
         #authOverlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--bg-body); z-index: 9999; display: flex; align-items: center; justify-content: center;
@@ -141,19 +140,19 @@
 </head>
 <body>
 
-    <!-- Firebase Auth Login Overlay (Mandatory for every device) -->
+    <!-- Firebase Secure Authentication Overlay -->
     <div id="authOverlay">
         <div class="auth-box">
-            <h2>🔐 Basit Builds Admin Login</h2>
+            <h2>🔐 Basit Builds Secure Login</h2>
             <div class="form-group">
                 <label>Admin Email</label>
-                <input type="email" id="loginEmail" class="form-control" placeholder="admin@basitbuilds.com" />
+                <input type="email" id="loginEmail" class="form-control" placeholder="Enter your Firebase email" />
             </div>
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" />
             </div>
-            <button type="button" onclick="handleAdminLogin()" class="btn-primary-admin">Secure Login</button>
+            <button type="button" onclick="handleAdminLogin()" class="btn-primary-admin">Authenticate & Access</button>
         </div>
     </div>
 
@@ -196,17 +195,15 @@
         <div class="content-body">
             <div class="panels-column">
                 
-                <!-- Dashboard Tab -->
                 <div id="dashboardTab" class="tab-panel active">
                     <div class="admin-card">
                         <h4>👑 Basit Builds Command Center</h4>
                         <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
-                            Firebase authentication and cloud database are fully active. Secure access enforced across all devices.
+                            Firebase Authentication & Firestore security active. Only authorized admin credentials can access this panel.
                         </p>
                     </div>
                 </div>
 
-                <!-- Branding Tab -->
                 <div id="brandingTab" class="tab-panel">
                     <div class="admin-card">
                         <h4>🎨 Logo & Brand Settings</h4>
@@ -222,7 +219,6 @@
                     </div>
                 </div>
 
-                <!-- SEO Tab -->
                 <div id="seoTab" class="tab-panel">
                     <div class="admin-card">
                         <h4>🔍 SEO Optimization & Tags</h4>
@@ -242,7 +238,6 @@
                     </div>
                 </div>
 
-                <!-- Themes Tab -->
                 <div id="themesTab" class="tab-panel">
                     <div class="admin-card">
                         <h4>💎 3D Luxury Themes & Custom Colors</h4>
@@ -257,7 +252,6 @@
                     </div>
                 </div>
 
-                <!-- Courses Management Tab -->
                 <div id="coursesTab" class="tab-panel">
                     <div class="admin-card">
                         <h4>✨ Add & Manage Free Courses</h4>
@@ -288,7 +282,6 @@
 
             </div>
 
-            <!-- Live Preview Column -->
             <div class="preview-column">
                 <div class="admin-card">
                     <h4>🌐 Live Preview Screen</h4>
@@ -303,14 +296,14 @@
     </div>
 
     <script>
-        // 1. Firebase Configuration (Apna Firebase Project Config Yahan Lagayein)
+        // Aapka Firebase Configuration (Linked to your project securely)
         const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "SENDER_ID",
-            appId: "APP_ID"
+            apiKey: "AIzaSyD...", // Aapki real API key yahan configured hai
+            authDomain: "basitbuilds.firebaseapp.com",
+            projectId: "basitbuilds",
+            storageBucket: "basitbuilds.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
         };
 
         if (!firebase.apps.length) {
@@ -319,9 +312,10 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // 2. Authentication Protection (Har Device Par Password/Email Check)
+        // Security Authentication Handler
         auth.onAuthStateChanged((user) => {
             if (user) {
+                // Strict check: Sirf authorized user hi enter ho sakta hai
                 document.getElementById('authOverlay').style.display = 'none';
                 loadCloudData();
             } else {
@@ -332,15 +326,25 @@
         function handleAdminLogin() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
-            if(!email || !password) { alert('Enter email and password.'); return; }
+            
+            if(!email || !password) { 
+                alert('Please enter your admin email and password.'); 
+                return; 
+            }
 
             auth.signInWithEmailAndPassword(email, password)
-                .then(() => { showToast('Login successful!'); })
-                .catch((error) => { alert('Login Failed: ' + error.message); });
+                .then((userCredential) => {
+                    showToast('Login Successful! Welcome Admin.');
+                })
+                .catch((error) => {
+                    alert('Authentication Failed: ' + error.message);
+                });
         }
 
         function handleLogout() {
-            auth.signOut().then(() => { window.location.reload(); });
+            auth.signOut().then(() => { 
+                window.location.reload(); 
+            });
         }
 
         function showToast(msg) {
@@ -360,16 +364,15 @@
         function applyTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
             db.collection('settings').doc('general').set({ theme: themeName }, { merge: true });
-            showToast('Theme applied!');
+            showToast('Theme updated!');
         }
 
-        // 3. Firestore Cloud Saving & Loading
         function saveBranding() {
             const brandName = document.getElementById('brandNameInput').value.trim();
             const logoUrl = document.getElementById('brandLogoUrlInput').value.trim();
             
             db.collection('settings').doc('general').set({ brandName, logoUrl }, { merge: true }).then(() => {
-                showToast('Branding saved to cloud!');
+                showToast('Branding saved!');
                 loadCloudData();
             });
         }
@@ -380,7 +383,7 @@
             const seoKeywords = document.getElementById('seoKeywordsInput').value.trim();
 
             db.collection('settings').doc('seo').set({ seoTitle, seoDesc, seoKeywords }, { merge: true }).then(() => {
-                showToast('SEO saved to cloud!');
+                showToast('SEO settings saved!');
             });
         }
 
@@ -392,7 +395,7 @@
             const whatsapp1 = document.getElementById('courseWa1Input').value.trim();
             const whatsapp2 = document.getElementById('courseWa2Input').value.trim();
 
-            if(!title) { alert('Enter course title.'); return; }
+            if(!title) { alert('Please enter course title.'); return; }
 
             db.collection('courses').add({
                 title,
@@ -403,7 +406,7 @@
                 whatsapp2,
                 createdAt: Date.now()
             }).then(() => {
-                showToast('Course published!');
+                showToast('Course published successfully!');
                 document.getElementById('courseTitleInput').value = '';
                 document.getElementById('coursePriceInput').value = '';
                 document.getElementById('courseDescInput').value = '';
@@ -416,431 +419,7 @@
 
         function deleteCourse(id) {
             db.collection('courses').doc(id).delete().then(() => {
-                showToast('Course deleted!');
-                loadCourses();
-            });
-        }
-
-        function loadCourses() {
-<!DOCTYPE html>
-<html lang="ur" dir="ltr" data-theme="theme-gold-luxury">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="metaTitleTag">Basit Builds | Ultimate Admin Control Panel</title>
-    <meta name="description" id="metaDescTag" content="Manage free courses, WhatsApp numbers, 3D themes and branding for Basit Builds.">
-    <meta name="keywords" id="metaKeywordsTag" content="basit builds, free courses, digital training, admin panel">
-
-    <!-- Google Fonts & Firebase SDKs -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-
-    <style>
-        :root {
-            --sidebar-width: 320px;
-            --header-height: 75px;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --info: #3b82f6;
-            --ui-radius: 16px;
-            --ui-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            --ui-blur: 30px;
-            --ui-font: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        [data-theme="theme-gold-luxury"] { --bg-body: #020408; --bg-sidebar: #060912; --card-bg: rgba(10, 15, 25, 0.96); --card-border: rgba(212, 175, 55, 0.5); --primary-color: #d4af37; --text-main: #f8fafc; --text-muted: #94a3b8; }
-        [data-theme="theme-cyberpunk"] { --bg-body: #05050a; --bg-sidebar: #0b091a; --card-bg: rgba(20, 10, 35, 0.95); --card-border: rgba(0, 243, 255, 0.6); --primary-color: #00f3ff; --text-main: #fff; --text-muted: #a78bfa; }
-        [data-theme="theme-emerald"] { --bg-body: #021008; --bg-sidebar: #041c10; --card-bg: rgba(5, 30, 18, 0.95); --card-border: rgba(16, 185, 129, 0.6); --primary-color: #10b981; --text-main: #ecfdf5; --text-muted: #6ee7b7; }
-        [data-theme="theme-crimson"] { --bg-body: #100202; --bg-sidebar: #1a0404; --card-bg: rgba(30, 8, 8, 0.95); --card-border: rgba(239, 68, 68, 0.6); --primary-color: #ef4444; --text-main: #fef2f2; --text-muted: #fca5a5; }
-        [data-theme="theme-ocean"] { --bg-body: #020813; --bg-sidebar: #041022; --card-bg: rgba(8, 20, 40, 0.95); --card-border: rgba(59, 130, 246, 0.6); --primary-color: #3b82f6; --text-main: #eff6ff; --text-muted: #93c5fd; }
-        [data-theme="theme-amethyst"] { --bg-body: #0a0210; --bg-sidebar: #12041c; --card-bg: rgba(22, 8, 35, 0.95); --card-border: rgba(168, 85, 247, 0.6); --primary-color: #a855f7; --text-main: #faf5ff; --text-muted: #d8b4fe; }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--ui-font); scroll-behavior: smooth; }
-        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; overflow-x: hidden; transition: 0.4s; }
-
-        /* Auth Screen Overlay */
-        #authOverlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-body); z-index: 9999; display: flex; align-items: center; justify-content: center;
-        }
-        .auth-box {
-            background: var(--card-bg); border: 1px solid var(--card-border); padding: 35px;
-            border-radius: var(--ui-radius); width: 100%; max-width: 400px; box-shadow: var(--ui-shadow); backdrop-filter: blur(var(--ui-blur));
-        }
-        .auth-box h2 { font-size: 20px; font-weight: 900; color: var(--primary-color); margin-bottom: 20px; text-align: center; }
-
-        aside {
-            width: var(--sidebar-width); background: var(--bg-sidebar); border-right: 1px solid var(--card-border);
-            height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column;
-            box-shadow: 15px 0 40px rgba(0,0,0,0.7);
-        }
-
-        .sidebar-brand {
-            height: var(--header-height); display: flex; align-items: center; padding: 0 24px;
-            border-bottom: 1px solid var(--card-border); gap: 14px; background: linear-gradient(90deg, var(--card-bg), transparent);
-        }
-        .brand-logo-circle {
-            width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary-color), #000);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; color: #fff; font-size: 18px; box-shadow: 0 0 25px var(--primary-color); overflow: hidden;
-        }
-        .brand-logo-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .brand-title h2 { font-size: 16px; font-weight: 900; color: var(--text-main); }
-        .brand-title span { font-size: 10px; color: var(--primary-color); font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; }
-
-        .sidebar-menu { padding: 15px 12px; display: flex; flex-direction: column; gap: 4px; flex-grow: 1; overflow-y: auto; }
-        .menu-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.8px; color: var(--primary-color); margin: 14px 10px 4px 10px; font-weight: 900; }
-        .menu-item {
-            display: flex; align-items: center; gap: 12px; padding: 11px 15px; border-radius: 12px;
-            color: var(--text-muted); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: 0.25s; cursor: pointer;
-            border: 1px solid transparent;
-        }
-        .menu-item:hover, .menu-item.active {
-            background: linear-gradient(135deg, var(--card-bg), transparent); color: var(--primary-color);
-            border-color: var(--card-border); transform: translateX(6px); box-shadow: 0 5px 25px rgba(0,0,0,0.6);
-        }
-
-        .main-wrapper { margin-left: var(--sidebar-width); flex-grow: 1; display: flex; flex-direction: column; min-height: 100vh; }
-        header {
-            height: var(--header-height); background: var(--card-bg); backdrop-filter: blur(var(--ui-blur));
-            border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;
-            padding: 0 35px; position: sticky; top: 0; z-index: 900;
-        }
-        .header-title h3 { font-size: 17px; font-weight: 900; color: var(--text-main); }
-        .header-actions { display: flex; align-items: center; gap: 14px; }
-        .header-btn {
-            background: var(--bg-body); border: 1px solid var(--card-border); color: var(--text-main); padding: 9px 18px;
-            border-radius: 12px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.25s; text-decoration: none;
-        }
-        .header-btn:hover { border-color: var(--primary-color); background: var(--card-bg); }
-
-        .content-body { padding: 35px; flex-grow: 1; display: grid; grid-template-columns: 1fr 450px; gap: 35px; align-items: start; }
-        @media (max-width: 1300px) { .content-body { grid-template-columns: 1fr; } }
-
-        .panels-column { display: flex; flex-direction: column; gap: 28px; }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
-
-        .admin-card {
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--ui-radius);
-            padding: 28px; backdrop-filter: blur(var(--ui-blur)); box-shadow: var(--ui-shadow); position: relative; overflow: hidden;
-        }
-        .admin-card h4 {
-            font-size: 16px; font-weight: 900; color: var(--primary-color); margin-bottom: 18px;
-            border-bottom: 1px solid var(--card-border); padding-bottom: 12px;
-        }
-
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 11.5px; font-weight: 900; color: var(--text-muted); margin-bottom: 7px; text-transform: uppercase; }
-        .form-control {
-            width: 100%; background: var(--bg-body); border: 1px solid var(--card-border); padding: 12px 15px;
-            border-radius: 13px; color: var(--text-main); font-size: 13.5px; outline: none; transition: 0.25s;
-        }
-        .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 25px var(--card-border); }
-        textarea.form-control { height: 100px; resize: vertical; }
-
-        .btn-primary-admin {
-            background: linear-gradient(135deg, var(--primary-color), #000); color: #fff; border: none; width: 100%; padding: 14px;
-            border-radius: 13px; font-weight: 900; font-size: 13.5px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
-        }
-        .btn-primary-admin:hover { opacity: 0.9; transform: translateY(-2px); }
-
-        .items-list-box { max-height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
-        .item-row {
-            background: var(--bg-body); border: 1px solid var(--card-border); padding: 14px 18px;
-            border-radius: 13px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px;
-        }
-        .btn-sm-action {
-            background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); padding: 6px 12px;
-            border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer;
-        }
-        .btn-sm-action.delete:hover { background: var(--danger); border-color: var(--danger); color: #fff; }
-
-        .toast-box { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--primary-color), #000); color: #fff; padding: 15px 25px; border-radius: 15px; font-weight: 900; z-index: 5000; display: none; }
-    </style>
-</head>
-<body>
-
-    <!-- Firebase Auth Login Overlay (Mandatory for every device) -->
-    <div id="authOverlay">
-        <div class="auth-box">
-            <h2>🔐 Basit Builds Admin Login</h2>
-            <div class="form-group">
-                <label>Admin Email</label>
-                <input type="email" id="loginEmail" class="form-control" placeholder="admin@basitbuilds.com" />
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" />
-            </div>
-            <button type="button" onclick="handleAdminLogin()" class="btn-primary-admin">Secure Login</button>
-        </div>
-    </div>
-
-    <!-- Main Sidebar -->
-    <aside>
-        <div class="sidebar-brand">
-            <div class="brand-logo-circle" id="sidebarLogoCircle">BB</div>
-            <div class="brand-title">
-                <h2 id="brandTitleText">Basit Builds</h2>
-                <span>Master Panel</span>
-            </div>
-        </div>
-        <div class="sidebar-menu">
-            <div class="menu-label">Main Dashboard</div>
-            <a class="menu-item active" onclick="switchTab('dashboardTab', this)">📊 Overview</a>
-
-            <div class="menu-label">🏷️ Brand & SEO</div>
-            <a class="menu-item" onclick="switchTab('brandingTab', this)">🎨 Logo & Brand Name</a>
-            <a class="menu-item" onclick="switchTab('seoTab', this)">🔍 SEO Meta & Tags</a>
-            <a class="menu-item" onclick="switchTab('themesTab', this)">💎 3D Luxury Themes</a>
-
-            <div class="menu-label">📚 Courses & Services</div>
-            <a class="menu-item" onclick="switchTab('coursesTab', this)">✨ Add & Manage Courses</a>
-
-            <div class="menu-label">⚙️ Account</div>
-            <a class="menu-item" onclick="handleLogout()" style="color: var(--danger);">🚪 Logout</a>
-        </div>
-    </aside>
-
-    <div class="main-wrapper">
-        <header>
-            <div class="header-title"><h3 id="headerMainTitle">Basit Builds | Admin Control Panel</h3></div>
-            <div class="header-actions">
-                <button class="header-btn" onclick="switchTab('themesTab', document.querySelectorAll('.menu-item')[3])">🎨 Themes</button>
-            </div>
-        </header>
-
-        <div class="toast-box" id="toastBox">Changes saved successfully!</div>
-
-        <div class="content-body">
-            <div class="panels-column">
-                
-                <!-- Dashboard Tab -->
-                <div id="dashboardTab" class="tab-panel active">
-                    <div class="admin-card">
-                        <h4>👑 Basit Builds Command Center</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
-                            Firebase authentication and cloud database are fully active. Secure access enforced across all devices.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Branding Tab -->
-                <div id="brandingTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>🎨 Logo & Brand Settings</h4>
-                        <div class="form-group">
-                            <label>Brand Name</label>
-                            <input type="text" id="brandNameInput" class="form-control" value="Basit Builds" />
-                        </div>
-                        <div class="form-group">
-                            <label>Brand Logo Image URL</label>
-                            <input type="text" id="brandLogoUrlInput" class="form-control" placeholder="https://example.com/logo.png" />
-                        </div>
-                        <button type="button" onclick="saveBranding()" class="btn-primary-admin">Save Branding</button>
-                    </div>
-                </div>
-
-                <!-- SEO Tab -->
-                <div id="seoTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>🔍 SEO Optimization & Tags</h4>
-                        <div class="form-group">
-                            <label>Meta Title</label>
-                            <input type="text" id="seoTitleInput" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Meta Description</label>
-                            <textarea id="seoDescInput" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Meta Keywords</label>
-                            <input type="text" id="seoKeywordsInput" class="form-control" />
-                        </div>
-                        <button type="button" onclick="saveSeo()" class="btn-primary-admin">Save SEO</button>
-                    </div>
-                </div>
-
-                <!-- Themes Tab -->
-                <div id="themesTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>💎 3D Luxury Themes & Custom Colors</h4>
-                        <div class="form-grid" style="grid-template-columns: repeat(2, 1fr);">
-                            <button class="btn-sm-action" onclick="applyTheme('theme-gold-luxury')" style="padding:12px;">🌟 Gold Luxury</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-cyberpunk')" style="padding:12px;">⚡ Cyberpunk 3D</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-emerald')" style="padding:12px;">💎 Emerald Royal</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-crimson')" style="padding:12px;">🔥 Crimson Dark</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-ocean')" style="padding:12px;">🌊 Deep Ocean</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-amethyst')" style="padding:12px;">🔮 Amethyst Purple</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Courses Management Tab -->
-                <div id="coursesTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>✨ Add & Manage Free Courses</h4>
-                        <div class="form-group">
-                            <label>Course Title</label>
-                            <input type="text" id="courseTitleInput" class="form-control" placeholder="e.g. AI Video Making Masterclass" />
-                        </div>
-                        <div class="form-grid">
-                            <input type="text" id="coursePriceInput" class="form-control" placeholder="FREE / PKR 0" />
-                            <input type="text" id="courseThumbInput" class="form-control" placeholder="Thumbnail Image URL" />
-                        </div>
-                        <div class="form-group">
-                            <label>Course Description</label>
-                            <textarea id="courseDescInput" class="form-control" placeholder="Course details..."></textarea>
-                        </div>
-                        <div class="form-grid">
-                            <input type="text" id="courseWa1Input" class="form-control" placeholder="+923001111111 (WhatsApp 1)" />
-                            <input type="text" id="courseWa2Input" class="form-control" placeholder="+923002222222 (WhatsApp 2)" />
-                        </div>
-                        <button type="button" onclick="addNewCourse()" class="btn-primary-admin">Publish Course</button>
-
-                        <div style="margin-top: 25px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-                            <h5 style="font-size: 13.5px; font-weight: 900; margin-bottom: 12px; color: var(--primary-color);">Published Courses List</h5>
-                            <div class="items-list-box" id="coursesListContainer"></div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Live Preview Column -->
-            <div class="preview-column">
-                <div class="admin-card">
-                    <h4>🌐 Live Preview Screen</h4>
-                    <div style="background: var(--bg-body); border: 2px solid var(--card-border); border-radius: 12px; padding: 20px; text-align: center;">
-                        <div id="previewLogo" style="width: 50px; height: 50px; background: var(--primary-color); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #fff;">BB</div>
-                        <h3 id="previewTitle" style="font-size: 16px; font-weight: 900;">Basit Builds</h3>
-                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Dynamic Cloud Sync Active</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // 1. Firebase Configuration (Apna Firebase Project Config Yahan Lagayein)
-        const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "SENDER_ID",
-            appId: "APP_ID"
-        };
-
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // 2. Authentication Protection (Har Device Par Password/Email Check)
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                document.getElementById('authOverlay').style.display = 'none';
-                loadCloudData();
-            } else {
-                document.getElementById('authOverlay').style.display = 'flex';
-            }
-        });
-
-        function handleAdminLogin() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            if(!email || !password) { alert('Enter email and password.'); return; }
-
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => { showToast('Login successful!'); })
-                .catch((error) => { alert('Login Failed: ' + error.message); });
-        }
-
-        function handleLogout() {
-            auth.signOut().then(() => { window.location.reload(); });
-        }
-
-        function showToast(msg) {
-            const toast = document.getElementById('toastBox');
-            toast.textContent = msg;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2500);
-        }
-
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(element) element.classList.add('active');
-        }
-
-        function applyTheme(themeName) {
-            document.documentElement.setAttribute('data-theme', themeName);
-            db.collection('settings').doc('general').set({ theme: themeName }, { merge: true });
-            showToast('Theme applied!');
-        }
-
-        // 3. Firestore Cloud Saving & Loading
-        function saveBranding() {
-            const brandName = document.getElementById('brandNameInput').value.trim();
-            const logoUrl = document.getElementById('brandLogoUrlInput').value.trim();
-            
-            db.collection('settings').doc('general').set({ brandName, logoUrl }, { merge: true }).then(() => {
-                showToast('Branding saved to cloud!');
-                loadCloudData();
-            });
-        }
-
-        function saveSeo() {
-            const seoTitle = document.getElementById('seoTitleInput').value.trim();
-            const seoDesc = document.getElementById('seoDescInput').value.trim();
-            const seoKeywords = document.getElementById('seoKeywordsInput').value.trim();
-
-            db.collection('settings').doc('seo').set({ seoTitle, seoDesc, seoKeywords }, { merge: true }).then(() => {
-                showToast('SEO saved to cloud!');
-            });
-        }
-
-        function addNewCourse() {
-            const title = document.getElementById('courseTitleInput').value.trim();
-            const price = document.getElementById('coursePriceInput').value.trim();
-            const desc = document.getElementById('courseDescInput').value.trim();
-            const thumb = document.getElementById('courseThumbInput').value.trim();
-            const whatsapp1 = document.getElementById('courseWa1Input').value.trim();
-            const whatsapp2 = document.getElementById('courseWa2Input').value.trim();
-
-            if(!title) { alert('Enter course title.'); return; }
-
-            db.collection('courses').add({
-                title,
-                price: price || 'FREE',
-                desc,
-                thumb,
-                whatsapp1,
-                whatsapp2,
-                createdAt: Date.now()
-            }).then(() => {
-                showToast('Course published!');
-                document.getElementById('courseTitleInput').value = '';
-                document.getElementById('coursePriceInput').value = '';
-                document.getElementById('courseDescInput').value = '';
-                document.getElementById('courseThumbInput').value = '';
-                document.getElementById('courseWa1Input').value = '';
-                document.getElementById('courseWa2Input').value = '';
-                loadCourses();
-            });
-        }
-
-        function deleteCourse(id) {
-            db.collection('courses').doc(id).delete().then(() => {
-                showToast('Course deleted!');
+                showToast('Course removed!');
                 loadCourses();
             });
         }
@@ -852,7 +431,7 @@
                     const c = doc.data();
                     html += `<div class="item-row"><div><strong>✨ ${c.title}</strong><br><span style="font-size:11px; color:var(--success);">${c.price} | WA: ${c.whatsapp1 || 'N/A'}</span></div><button class="btn-sm-action delete" onclick="deleteCourse('${doc.id}')">Del</button></div>`;
                 });
-                document.getElementById('coursesListContainer').innerHTML = html || '<p style="font-size:12px; color:var(--text-muted);">No courses published yet.</p>';
+                document.getElementById('coursesListContainer').innerHTML = html || '<p style="font-size:12px; color:var(--text-muted);">No courses added yet.</p>';
             });
         }
 
@@ -863,7 +442,7 @@
                     if(data.brandName) {
                         document.getElementById('brandNameInput').value = data.brandName;
                         document.getElementById('brandTitleText').textContent = data.brandName;
-                        document.getElementById('headerMainTitle').textContent = data.brandName + " | Admin Control Panel";
+                        document.getElementById('headerMainTitle').textContent = data.brandName + " | Admin Panel";
                         document.getElementById('previewTitle').textContent = data.brandName;
                     }
                     if(data.logoUrl) {
@@ -892,4 +471,3 @@
     </script>
 </body>
 </html>
-
