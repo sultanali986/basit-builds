@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="metaTitleTag">Basit Builds | Ultimate Admin Control Panel</title>
-    <meta name="description" id="metaDescTag" content="Manage free courses, WhatsApp numbers, 3D themes and branding for Basit Builds.">
-    <meta name="keywords" id="metaKeywordsTag" content="basit builds, free courses, digital training, admin panel">
-
+    <title id="metaTitleTag">Basit Builds | Admin Panel & Live Preview</title>
+    
     <!-- Google Fonts & Firebase SDKs -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
@@ -15,8 +13,6 @@
 
     <style>
         :root {
-            --sidebar-width: 320px;
-            --header-height: 75px;
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
@@ -27,15 +23,15 @@
             --ui-font: 'Plus Jakarta Sans', sans-serif;
         }
 
-        [data-theme="theme-gold-luxury"] { --bg-body: #020408; --bg-sidebar: #060912; --card-bg: rgba(10, 15, 25, 0.96); --card-border: rgba(212, 175, 55, 0.5); --primary-color: #d4af37; --text-main: #f8fafc; --text-muted: #94a3b8; }
-        [data-theme="theme-cyberpunk"] { --bg-body: #05050a; --bg-sidebar: #0b091a; --card-bg: rgba(20, 10, 35, 0.95); --card-border: rgba(0, 243, 255, 0.6); --primary-color: #00f3ff; --text-main: #fff; --text-muted: #a78bfa; }
-        [data-theme="theme-emerald"] { --bg-body: #021008; --bg-sidebar: #041c10; --card-bg: rgba(5, 30, 18, 0.95); --card-border: rgba(16, 185, 129, 0.6); --primary-color: #10b981; --text-main: #ecfdf5; --text-muted: #6ee7b7; }
-        [data-theme="theme-crimson"] { --bg-body: #100202; --bg-sidebar: #1a0404; --card-bg: rgba(30, 8, 8, 0.95); --card-border: rgba(239, 68, 68, 0.6); --primary-color: #ef4444; --text-main: #fef2f2; --text-muted: #fca5a5; }
-        [data-theme="theme-ocean"] { --bg-body: #020813; --bg-sidebar: #041022; --card-bg: rgba(8, 20, 40, 0.95); --card-border: rgba(59, 130, 246, 0.6); --primary-color: #3b82f6; --text-main: #eff6ff; --text-muted: #93c5fd; }
-        [data-theme="theme-amethyst"] { --bg-body: #0a0210; --bg-sidebar: #12041c; --card-bg: rgba(22, 8, 35, 0.95); --card-border: rgba(168, 85, 247, 0.6); --primary-color: #a855f7; --text-main: #faf5ff; --text-muted: #d8b4fe; }
+        [data-theme="theme-gold-luxury"] { --bg-body: #020408; --card-bg: rgba(10, 15, 25, 0.96); --card-border: rgba(212, 175, 55, 0.5); --primary-color: #d4af37; --text-main: #f8fafc; --text-muted: #94a3b8; }
+        [data-theme="theme-cyberpunk"] { --bg-body: #05050a; --card-bg: rgba(20, 10, 35, 0.95); --card-border: rgba(0, 243, 255, 0.6); --primary-color: #00f3ff; --text-main: #fff; --text-muted: #a78bfa; }
+        [data-theme="theme-emerald"] { --bg-body: #021008; --card-bg: rgba(5, 30, 18, 0.95); --card-border: rgba(16, 185, 129, 0.6); --primary-color: #10b981; --text-main: #ecfdf5; --text-muted: #6ee7b7; }
+        [data-theme="theme-crimson"] { --bg-body: #100202; --card-bg: rgba(30, 8, 8, 0.95); --card-border: rgba(239, 68, 68, 0.6); --primary-color: #ef4444; --text-main: #fef2f2; --text-muted: #fca5a5; }
+        [data-theme="theme-ocean"] { --bg-body: #020813; --card-bg: rgba(8, 20, 40, 0.95); --card-border: rgba(59, 130, 246, 0.6); --primary-color: #3b82f6; --text-main: #eff6ff; --text-muted: #93c5fd; }
+        [data-theme="theme-amethyst"] { --bg-body: #0a0210; --card-bg: rgba(22, 8, 35, 0.95); --card-border: rgba(168, 85, 247, 0.6); --primary-color: #a855f7; --text-main: #faf5ff; --text-muted: #d8b4fe; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--ui-font); scroll-behavior: smooth; }
-        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; display: flex; overflow-x: hidden; transition: 0.4s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--ui-font); }
+        body { background-color: var(--bg-body); color: var(--text-main); min-height: 100vh; overflow-x: hidden; transition: 0.4s; }
 
         #authOverlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -47,107 +43,143 @@
         }
         .auth-box h2 { font-size: 20px; font-weight: 900; color: var(--primary-color); margin-bottom: 20px; text-align: center; }
 
-        aside {
-            width: var(--sidebar-width); background: var(--bg-sidebar); border-right: 1px solid var(--card-border);
-            height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000; display: flex; flex-direction: column;
-            box-shadow: 15px 0 40px rgba(0,0,0,0.7);
+        /* Master Split Screen Layout */
+        .master-container {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            min-height: 100vh;
+            width: 100vw;
+        }
+        @media (max-width: 1100px) {
+            .master-container { grid-template-columns: 1fr; }
         }
 
-        .sidebar-brand {
-            height: var(--header-height); display: flex; align-items: center; padding: 0 24px;
-            border-bottom: 1px solid var(--card-border); gap: 14px; background: linear-gradient(90deg, var(--card-bg), transparent);
-        }
-        .brand-logo-circle {
-            width: 45px; height: 45px; background: linear-gradient(135deg, var(--primary-color), #000);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-weight: 900; color: #fff; font-size: 18px; box-shadow: 0 0 25px var(--primary-color); overflow: hidden;
-        }
-        .brand-logo-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-        .brand-title h2 { font-size: 16px; font-weight: 900; color: var(--text-main); }
-        .brand-title span { font-size: 10px; color: var(--primary-color); font-weight: 900; text-transform: uppercase; letter-spacing: 1.5px; }
-
-        .sidebar-menu { padding: 15px 12px; display: flex; flex-direction: column; gap: 4px; flex-grow: 1; overflow-y: auto; }
-        .menu-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 1.8px; color: var(--primary-color); margin: 14px 10px 4px 10px; font-weight: 900; }
-        .menu-item {
-            display: flex; align-items: center; gap: 12px; padding: 11px 15px; border-radius: 12px;
-            color: var(--text-muted); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: 0.25s; cursor: pointer;
-            border: 1px solid transparent;
-        }
-        .menu-item:hover, .menu-item.active {
-            background: linear-gradient(135deg, var(--card-bg), transparent); color: var(--primary-color);
-            border-color: var(--card-border); transform: translateX(6px); box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+        /* Left Pane: Admin Panel Controls */
+        .admin-pane {
+            background: var(--bg-body);
+            border-right: 1px solid var(--card-border);
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 100vh;
         }
 
-        .main-wrapper { margin-left: var(--sidebar-width); flex-grow: 1; display: flex; flex-direction: column; min-height: 100vh; }
-        header {
-            height: var(--header-height); background: var(--card-bg); backdrop-filter: blur(var(--ui-blur));
-            border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center;
-            padding: 0 35px; position: sticky; top: 0; z-index: 900;
+        /* Right Pane: Live Website Preview */
+        .preview-pane {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 1px solid var(--card-border);
+            padding: 30px;
+            overflow-y: auto;
+            max-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .header-title h3 { font-size: 17px; font-weight: 900; color: var(--text-main); }
-        .header-actions { display: flex; align-items: center; gap: 14px; }
-        .header-btn {
-            background: var(--bg-body); border: 1px solid var(--card-border); color: var(--text-main); padding: 9px 18px;
-            border-radius: 12px; font-size: 12.5px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.25s; text-decoration: none;
+
+        .pane-header {
+            font-size: 14px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
         }
-        .header-btn:hover { border-color: var(--primary-color); background: var(--card-bg); }
-
-        .content-body { padding: 35px; flex-grow: 1; display: grid; grid-template-columns: 1fr 420px; gap: 35px; align-items: start; }
-        @media (max-width: 1300px) { .content-body { grid-template-columns: 1fr; } }
-
-        .panels-column { display: flex; flex-direction: column; gap: 28px; }
-        .tab-panel { display: none; }
-        .tab-panel.active { display: block; }
 
         .admin-card {
             background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--ui-radius);
-            padding: 28px; backdrop-filter: blur(var(--ui-blur)); box-shadow: var(--ui-shadow); position: relative; overflow: hidden;
+            padding: 22px; backdrop-filter: blur(var(--ui-blur)); box-shadow: var(--ui-shadow); margin-bottom: 22px;
         }
         .admin-card h4 {
-            font-size: 16px; font-weight: 900; color: var(--primary-color); margin-bottom: 18px;
-            border-bottom: 1px solid var(--card-border); padding-bottom: 12px;
+            font-size: 15px; font-weight: 900; color: var(--primary-color); margin-bottom: 15px;
+            border-bottom: 1px solid var(--card-border); padding-bottom: 10px;
         }
 
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 11.5px; font-weight: 900; color: var(--text-muted); margin-bottom: 7px; text-transform: uppercase; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 12px; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 11px; font-weight: 900; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
         .form-control {
-            width: 100%; background: var(--bg-body); border: 1px solid var(--card-border); padding: 12px 15px;
-            border-radius: 13px; color: var(--text-main); font-size: 13.5px; outline: none; transition: 0.25s;
+            width: 100%; background: var(--bg-body); border: 1px solid var(--card-border); padding: 10px 14px;
+            border-radius: 12px; color: var(--text-main); font-size: 13px; outline: none; transition: 0.25s;
         }
-        .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 25px var(--card-border); }
-        textarea.form-control { height: 100px; resize: vertical; }
+        .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 20px var(--card-border); }
+        textarea.form-control { height: 90px; resize: vertical; }
 
         .btn-primary-admin {
-            background: linear-gradient(135deg, var(--primary-color), #000); color: #fff; border: none; width: 100%; padding: 14px;
-            border-radius: 13px; font-weight: 900; font-size: 13.5px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
+            background: linear-gradient(135deg, var(--primary-color), #000); color: #fff; border: none; width: 100%; padding: 12px;
+            border-radius: 12px; font-weight: 900; font-size: 13px; text-transform: uppercase; cursor: pointer; transition: 0.3s;
         }
         .btn-primary-admin:hover { opacity: 0.9; transform: translateY(-2px); }
 
-        .items-list-box { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; }
+        .items-list-box { max-height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
         .item-row {
-            background: var(--bg-body); border: 1px solid var(--card-border); padding: 14px 18px;
-            border-radius: 13px; display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; gap: 10px;
+            background: var(--bg-body); border: 1px solid var(--card-border); padding: 12px 15px;
+            border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; gap: 10px;
         }
         .btn-sm-action {
-            background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); padding: 6px 12px;
+            background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-main); padding: 5px 10px;
             border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.2s;
         }
         .btn-sm-action.edit:hover { background: var(--info); border-color: var(--info); color: #fff; }
         .btn-sm-action.delete:hover { background: var(--danger); border-color: var(--danger); color: #fff; }
 
-        .toast-box { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--primary-color), #000); color: #fff; padding: 15px 25px; border-radius: 15px; font-weight: 900; z-index: 5000; display: none; }
+        /* Simulated Live Website Container (Right Pane) */
+        .live-website-mockup {
+            background: var(--bg-body);
+            border: 2px solid var(--card-border);
+            border-radius: var(--ui-radius);
+            padding: 25px;
+            flex-grow: 1;
+            box-shadow: var(--ui-shadow);
+            overflow-y: auto;
+        }
+        .live-hero {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 20px;
+        }
+        .live-logo {
+            width: 60px; height: 60px; background: var(--primary-color); border-radius: 50%;
+            margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;
+            font-weight: 900; color: #fff; font-size: 20px; overflow: hidden; box-shadow: 0 0 25px var(--primary-color);
+        }
+        .live-logo img { width: 100%; height: 100%; object-fit: cover; }
+        .live-courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+        .live-course-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .live-course-card h5 { font-size: 14px; font-weight: 900; color: var(--text-main); }
+        .live-course-card p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+        .live-wa-btn {
+            background: var(--success); color: #fff; text-align: center; padding: 8px;
+            border-radius: 8px; font-size: 11px; font-weight: 900; text-decoration: none; margin-top: auto;
+        }
+
+        .toast-box { position: fixed; bottom: 25px; right: 25px; background: linear-gradient(135deg, var(--primary-color), #000); color: #fff; padding: 12px 20px; border-radius: 12px; font-weight: 900; z-index: 5000; display: none; }
     </style>
 </head>
 <body>
 
-    <!-- Firebase Secure Authentication Overlay -->
+    <!-- Firebase Authentication Login Overlay -->
     <div id="authOverlay">
         <div class="auth-box">
             <h2>🔐 Basit Builds Secure Login</h2>
             <div class="form-group">
                 <label>Admin Email</label>
-                <input type="email" id="loginEmail" class="form-control" placeholder="Enter your Firebase email" />
+                <input type="email" id="loginEmail" class="form-control" placeholder="Enter Firebase email" />
             </div>
             <div class="form-group">
                 <label>Password</label>
@@ -157,150 +189,97 @@
         </div>
     </div>
 
-    <!-- Main Sidebar -->
-    <aside>
-        <div class="sidebar-brand">
-            <div class="brand-logo-circle" id="sidebarLogoCircle">BB</div>
-            <div class="brand-title">
-                <h2 id="brandTitleText">Basit Builds</h2>
-                <span>Master Panel</span>
+    <div class="toast-box" id="toastBox">Changes saved successfully!</div>
+
+    <!-- Master Split Screen Container -->
+    <div class="master-container">
+        
+        <!-- LEFT SIDE: ADMIN CONTROLS -->
+        <div class="admin-pane">
+            <div class="pane-header">
+                <span>⚙️ Admin Control Panel</span>
+                <button onclick="handleLogout()" class="btn-sm-action delete">Logout</button>
             </div>
-        </div>
-        <div class="sidebar-menu">
-            <div class="menu-label">Main Dashboard</div>
-            <a class="menu-item active" onclick="switchTab('dashboardTab', this)">📊 Overview</a>
 
-            <div class="menu-label">🏷️ Brand & SEO</div>
-            <a class="menu-item" onclick="switchTab('brandingTab', this)">🎨 Logo & Brand Name</a>
-            <a class="menu-item" onclick="switchTab('seoTab', this)">🔍 SEO Meta & Tags</a>
-            <a class="menu-item" onclick="switchTab('themesTab', this)">💎 3D Luxury Themes</a>
-
-            <div class="menu-label">📚 Courses & Services</div>
-            <a class="menu-item" onclick="switchTab('coursesTab', this)">✨ Manage & Update Courses</a>
-
-            <div class="menu-label">⚙️ Account</div>
-            <a class="menu-item" onclick="handleLogout()" style="color: var(--danger);">🚪 Logout</a>
-        </div>
-    </aside>
-
-    <div class="main-wrapper">
-        <header>
-            <div class="header-title"><h3 id="headerMainTitle">Basit Builds | Admin Control Panel</h3></div>
-            <div class="header-actions">
-                <button class="header-btn" onclick="switchTab('themesTab', document.querySelectorAll('.menu-item')[3])">🎨 Themes</button>
-            </div>
-        </header>
-
-        <div class="toast-box" id="toastBox">Changes saved successfully!</div>
-
-        <div class="content-body">
-            <div class="panels-column">
+            <!-- 1. Brand & Theme Manager -->
+            <div class="admin-card">
+                <h4>🎨 Brand & 3D Themes Setup</h4>
+                <div class="form-group">
+                    <label>Brand Name</label>
+                    <input type="text" id="brandNameInput" class="form-control" value="Basit Builds" />
+                </div>
+                <div class="form-group">
+                    <label>Brand Logo Image URL</label>
+                    <input type="text" id="brandLogoUrlInput" class="form-control" placeholder="https://..." />
+                </div>
+                <button type="button" onclick="saveBranding()" class="btn-primary-admin" style="margin-bottom:15px;">Save Branding</button>
                 
-                <div id="dashboardTab" class="tab-panel active">
-                    <div class="admin-card">
-                        <h4>👑 Basit Builds Command Center</h4>
-                        <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
-                            Firebase security and live Netlify sync are fully active. Manage your birthday vlogs, love stories, free courses, and 3D themes from here.
-                        </p>
-                    </div>
+                <label>Select Netlify 3D Theme (Live Sync)</label>
+                <div class="form-grid" style="grid-template-columns: repeat(3, 1fr); margin-top:6px;">
+                    <button class="btn-sm-action" onclick="applyTheme('theme-gold-luxury')">🌟 Gold</button>
+                    <button class="btn-sm-action" onclick="applyTheme('theme-cyberpunk')">⚡ Cyber</button>
+                    <button class="btn-sm-action" onclick="applyTheme('theme-emerald')">💎 Emerald</button>
+                    <button class="btn-sm-action" onclick="applyTheme('theme-crimson')">🔥 Crimson</button>
+                    <button class="btn-sm-action" onclick="applyTheme('theme-ocean')">🌊 Ocean</button>
+                    <button class="btn-sm-action" onclick="applyTheme('theme-amethyst')">🔮 Amethyst</button>
                 </div>
-
-                <div id="brandingTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>🎨 Logo & Brand Settings</h4>
-                        <div class="form-group">
-                            <label>Brand Name</label>
-                            <input type="text" id="brandNameInput" class="form-control" value="Basit Builds" />
-                        </div>
-                        <div class="form-group">
-                            <label>Brand Logo Image URL</label>
-                            <input type="text" id="brandLogoUrlInput" class="form-control" placeholder="https://example.com/logo.png" />
-                        </div>
-                        <button type="button" onclick="saveBranding()" class="btn-primary-admin">Save Branding</button>
-                    </div>
-                </div>
-
-                <div id="seoTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>🔍 SEO Optimization & Tags</h4>
-                        <div class="form-group">
-                            <label>Meta Title</label>
-                            <input type="text" id="seoTitleInput" class="form-control" />
-                        </div>
-                        <div class="form-group">
-                            <label>Meta Description</label>
-                            <textarea id="seoDescInput" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Meta Keywords</label>
-                            <input type="text" id="seoKeywordsInput" class="form-control" />
-                        </div>
-                        <button type="button" onclick="saveSeo()" class="btn-primary-admin">Save SEO</button>
-                    </div>
-                </div>
-
-                <div id="themesTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4>💎 3D Luxury Themes (Netlify Live Sync)</h4>
-                        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Select any theme below to instantly update your Netlify website colors:</p>
-                        <div class="form-grid" style="grid-template-columns: repeat(2, 1fr);">
-                            <button class="btn-sm-action" onclick="applyTheme('theme-gold-luxury')" style="padding:14px; font-weight:900;">🌟 Gold Luxury</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-cyberpunk')" style="padding:14px; font-weight:900;">⚡ Cyberpunk 3D</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-emerald')" style="padding:14px; font-weight:900;">💎 Emerald Royal</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-crimson')" style="padding:14px; font-weight:900;">🔥 Crimson Dark</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-ocean')" style="padding:14px; font-weight:900;">🌊 Deep Ocean</button>
-                            <button class="btn-sm-action" onclick="applyTheme('theme-amethyst')" style="padding:14px; font-weight:900;">🔮 Amethyst Purple</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="coursesTab" class="tab-panel">
-                    <div class="admin-card">
-                        <h4 id="formHeadingTitle">✨ Add or Update Courses / Videos</h4>
-                        <input type="hidden" id="editingCourseId" value="" />
-                        <div class="form-group">
-                            <label>Course / Video Title (e.g. Birthday Special, Love Story, Free Course)</label>
-                            <input type="text" id="courseTitleInput" class="form-control" placeholder="e.g. Birthday Vlog Special Course" />
-                        </div>
-                        <div class="form-grid">
-                            <input type="text" id="coursePriceInput" class="form-control" placeholder="FREE / PKR 0" />
-                            <input type="text" id="courseThumbInput" class="form-control" placeholder="Thumbnail Image URL" />
-                        </div>
-                        <div class="form-group">
-                            <label>Description (Details, Custom Text)</label>
-                            <textarea id="courseDescInput" class="form-control" placeholder="Course or video description..."></textarea>
-                        </div>
-                        <div class="form-grid">
-                            <input type="text" id="courseWa1Input" class="form-control" placeholder="+923001111111 (WhatsApp 1)" />
-                            <input type="text" id="courseWa2Input" class="form-control" placeholder="+923002222222 (WhatsApp 2)" />
-                        </div>
-                        <button type="button" id="saveCourseBtn" onclick="saveOrUpdateCourse()" class="btn-primary-admin">Publish Course</button>
-                        <button type="button" id="cancelEditBtn" onclick="resetCourseForm()" style="display:none; background:var(--danger); margin-top:8px;" class="btn-primary-admin">Cancel Edit</button>
-
-                        <div style="margin-top: 25px; border-top: 1px solid var(--card-border); padding-top: 20px;">
-                            <h5 style="font-size: 13.5px; font-weight: 900; margin-bottom: 12px; color: var(--primary-color);">All Existing Courses & Videos (Click Edit to Update)</h5>
-                            <div class="items-list-box" id="coursesListContainer"></div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <div class="preview-column">
-                <div class="admin-card">
-                    <h4>🌐 Live Preview Screen</h4>
-                    <div style="background: var(--bg-body); border: 2px solid var(--card-border); border-radius: 12px; padding: 20px; text-align: center;">
-                        <div id="previewLogo" style="width: 50px; height: 50px; background: var(--primary-color); border-radius: 50%; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #fff;">BB</div>
-                        <h3 id="previewTitle" style="font-size: 16px; font-weight: 900;">Basit Builds</h3>
-                        <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Netlify Live Cloud Sync Active</p>
-                    </div>
+            <!-- 2. Old & New Courses / Videos Manager -->
+            <div class="admin-card">
+                <h4 id="formHeadingTitle">✨ Add or Update Old/New Courses & Videos</h4>
+                <input type="hidden" id="editingCourseId" value="" />
+                
+                <div class="form-group">
+                    <label>Course / Video Title (Birthday, Love Story, Custom Site, etc.)</label>
+                    <input type="text" id="courseTitleInput" class="form-control" placeholder="e.g. Birthday Vlog Special Course" />
+                </div>
+                <div class="form-grid">
+                    <input type="text" id="coursePriceInput" class="form-control" placeholder="FREE / PKR 0" />
+                    <input type="text" id="courseThumbInput" class="form-control" placeholder="Thumbnail Image URL" />
+                </div>
+                <div class="form-group">
+                    <label>Description & Details</label>
+                    <textarea id="courseDescInput" class="form-control" placeholder="Course description or WhatsApp text details..."></textarea>
+                </div>
+                <div class="form-grid">
+                    <input type="text" id="courseWa1Input" class="form-control" placeholder="+923001111111 (WhatsApp 1)" />
+                    <input type="text" id="courseWa2Input" class="form-control" placeholder="+923002222222 (WhatsApp 2)" />
+                </div>
+                <button type="button" id="saveCourseBtn" onclick="saveOrUpdateCourse()" class="btn-primary-admin">Publish Course</button>
+                <button type="button" id="cancelEditBtn" onclick="resetCourseForm()" style="display:none; background:var(--danger); margin-top:8px;" class="btn-primary-admin">Cancel Edit</button>
+
+                <div style="margin-top: 20px; border-top: 1px solid var(--card-border); padding-top: 15px;">
+                    <h5 style="font-size: 13px; font-weight: 900; margin-bottom: 8px; color: var(--primary-color);">All Existing Courses (Click Edit to Update Descriptions)</h5>
+                    <div class="items-list-box" id="coursesListContainer"></div>
                 </div>
             </div>
         </div>
+
+        <!-- RIGHT SIDE: LIVE WEBSITE PREVIEW -->
+        <div class="preview-pane">
+            <div class="pane-header">
+                <span>🌐 Netlify Live Website Preview</span>
+                <span style="font-size:10px; color:var(--success);">● Live Sync Active</span>
+            </div>
+
+            <div class="live-website-mockup">
+                <div class="live-hero">
+                    <div class="live-logo" id="previewLogoCircle">BB</div>
+                    <h2 id="previewBrandTitle" style="font-size: 18px; font-weight: 900; color: var(--text-main);">Basit Builds</h2>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Free Courses & Custom Digital Services</p>
+                </div>
+
+                <h4 style="font-size: 13px; font-weight: 900; color: var(--primary-color); margin-bottom: 12px;">Available Courses & Videos</h4>
+                <div class="live-courses-grid" id="livePreviewCoursesGrid">
+                    <!-- Dynamic Live Cards Render Here -->
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // Aapki Asal Firebase Configuration (basit-builds)
         const firebaseConfig = {
             apiKey: "AIzaSyBCkU6QvkUWWuQckXsifIKqz54w2r3ngUU",
             authDomain: "basit-builds.firebaseapp.com",
@@ -316,7 +295,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // Security Authentication Handler
         auth.onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('authOverlay').style.display = 'none';
@@ -329,65 +307,34 @@
         function handleAdminLogin() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
-            
-            if(!email || !password) { 
-                alert('Please enter your admin email and password.'); 
-                return; 
-            }
-
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    showToast('Login Successful! Welcome Admin.');
-                })
-                .catch((error) => {
-                    alert('Authentication Failed: ' + error.message);
-                });
+            if(!email || !password) { alert('Enter credentials'); return; }
+            auth.signInWithEmailAndPassword(email, password).catch(e => alert(e.message));
         }
 
         function handleLogout() {
-            auth.signOut().then(() => { 
-                window.location.reload(); 
-            });
+            auth.signOut().then(() => window.location.reload());
         }
 
         function showToast(msg) {
-            const toast = document.getElementById('toastBox');
-            toast.textContent = msg;
-            toast.style.display = 'block';
-            setTimeout(() => { toast.style.display = 'none'; }, 2500);
-        }
-
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
-            if(element) element.classList.add('active');
+            const t = document.getElementById('toastBox');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2200);
         }
 
         function applyTheme(themeName) {
             document.documentElement.setAttribute('data-theme', themeName);
             db.collection('settings').doc('general').set({ theme: themeName }, { merge: true }).then(() => {
-                showToast('Theme synced to Netlify website!');
+                showToast('Theme synced & updated on Live Preview!');
             });
         }
 
         function saveBranding() {
             const brandName = document.getElementById('brandNameInput').value.trim();
             const logoUrl = document.getElementById('brandLogoUrlInput').value.trim();
-            
             db.collection('settings').doc('general').set({ brandName, logoUrl }, { merge: true }).then(() => {
-                showToast('Branding saved!');
+                showToast('Branding updated!');
                 loadCloudData();
-            });
-        }
-
-        function saveSeo() {
-            const seoTitle = document.getElementById('seoTitleInput').value.trim();
-            const seoDesc = document.getElementById('seoDescInput').value.trim();
-            const seoKeywords = document.getElementById('seoKeywordsInput').value.trim();
-
-            db.collection('settings').doc('seo').set({ seoTitle, seoDesc, seoKeywords }, { merge: true }).then(() => {
-                showToast('SEO settings saved!');
             });
         }
 
@@ -400,30 +347,20 @@
             const whatsapp1 = document.getElementById('courseWa1Input').value.trim();
             const whatsapp2 = document.getElementById('courseWa2Input').value.trim();
 
-            if(!title) { alert('Please enter title.'); return; }
+            if(!title) { alert('Enter title'); return; }
 
-            const courseData = {
-                title,
-                price: price || 'FREE',
-                desc,
-                thumb,
-                whatsapp1,
-                whatsapp2,
-                updatedAt: Date.now()
-            };
+            const courseData = { title, price: price || 'FREE', desc, thumb, whatsapp1, whatsapp2, updatedAt: Date.now() };
 
             if(editingId) {
-                // Update Existing Course
                 db.collection('courses').doc(editingId).update(courseData).then(() => {
-                    showToast('Course / Video updated successfully!');
+                    showToast('Course details updated successfully!');
                     resetCourseForm();
                     loadCourses();
                 });
             } else {
-                // Add New Course
                 courseData.createdAt = Date.now();
                 db.collection('courses').add(courseData).then(() => {
-                    showToast('Course published successfully!');
+                    showToast('New course published successfully!');
                     resetCourseForm();
                     loadCourses();
                 });
@@ -442,7 +379,6 @@
             document.getElementById('formHeadingTitle').textContent = "✏️ Edit Existing Course / Video";
             document.getElementById('saveCourseBtn').textContent = "Update Course Details";
             document.getElementById('cancelEditBtn').style.display = 'block';
-            switchTab('coursesTab', document.querySelectorAll('.menu-item')[4]);
         }
 
         function resetCourseForm() {
@@ -454,15 +390,15 @@
             document.getElementById('courseWa1Input').value = '';
             document.getElementById('courseWa2Input').value = '';
             
-            document.getElementById('formHeadingTitle').textContent = "✨ Add or Update Courses / Videos";
+            document.getElementById('formHeadingTitle').textContent = "✨ Add or Update Old/New Courses & Videos";
             document.getElementById('saveCourseBtn').textContent = "Publish Course";
             document.getElementById('cancelEditBtn').style.display = 'none';
         }
 
         function deleteCourse(id) {
-            if(confirm('Are you sure you want to delete this course/video?')) {
+            if(confirm('Delete this course?')) {
                 db.collection('courses').doc(id).delete().then(() => {
-                    showToast('Course removed!');
+                    showToast('Removed!');
                     loadCourses();
                 });
             }
@@ -470,22 +406,38 @@
 
         function loadCourses() {
             db.collection('courses').orderBy('updatedAt', 'desc').get().then((snapshot) => {
-                let html = '';
+                let adminHtml = '';
+                let previewHtml = '';
+
                 snapshot.forEach((doc) => {
                     const c = doc.data();
-                    html += `
+                    
+                    // Admin List Row
+                    adminHtml += `
                         <div class="item-row">
                             <div style="overflow:hidden;">
-                                <strong style="color:var(--text-main);">✨ ${c.title || 'Untitled'}</strong><br>
-                                <span style="font-size:11px; color:var(--success);">${c.price || 'FREE'} | WA: ${c.whatsapp1 || 'N/A'}</span>
+                                <strong style="color:var(--text-main); font-size:12px;">✨ ${c.title || 'Untitled'}</strong><br>
+                                <span style="font-size:10px; color:var(--success);">${c.price || 'FREE'}</span>
                             </div>
-                            <div style="display:flex; gap:6px; flex-shrink:0;">
+                            <div style="display:flex; gap:5px; flex-shrink:0;">
                                 <button class="btn-sm-action edit" onclick="editCourse('${doc.id}', '${encodeURIComponent(c.title)}', '${encodeURIComponent(c.price)}', '${encodeURIComponent(c.desc)}', '${encodeURIComponent(c.thumb)}', '${encodeURIComponent(c.whatsapp1)}', '${encodeURIComponent(c.whatsapp2)}')">Edit</button>
                                 <button class="btn-sm-action delete" onclick="deleteCourse('${doc.id}')">Del</button>
                             </div>
                         </div>`;
+
+                    // Live Website Preview Card
+                    previewHtml += `
+                        <div class="live-course-card">
+                            ${c.thumb ? `<img src="${c.thumb}" style="width:100%; height:110px; object-fit:cover; border-radius:8px;" />` : ''}
+                            <h5>${c.title || ''}</h5>
+                            <p>${c.desc || 'No description provided.'}</p>
+                            <span style="font-size:10px; font-weight:900; color:var(--primary-color);">Price: ${c.price || 'FREE'}</span>
+                            <a href="https://wa.me/${c.whatsapp1 || ''}" target="_blank" class="live-wa-btn">WhatsApp Chat</a>
+                        </div>`;
                 });
-                document.getElementById('coursesListContainer').innerHTML = html || '<p style="font-size:12px; color:var(--text-muted);">No courses found.</p>';
+
+                document.getElementById('coursesListContainer').innerHTML = adminHtml || '<p style="font-size:11px; color:var(--text-muted);">No courses yet.</p>';
+                document.getElementById('livePreviewCoursesGrid').innerHTML = previewHtml || '<p style="font-size:12px; color:var(--text-muted); text-align:center; grid-column:span 2;">No courses published yet.</p>';
             });
         }
 
@@ -495,31 +447,17 @@
                     const data = doc.data();
                     if(data.brandName) {
                         document.getElementById('brandNameInput').value = data.brandName;
-                        document.getElementById('brandTitleText').textContent = data.brandName;
-                        document.getElementById('headerMainTitle').textContent = data.brandName + " | Admin Panel";
-                        document.getElementById('previewTitle').textContent = data.brandName;
+                        document.getElementById('previewBrandTitle').textContent = data.brandName;
                     }
                     if(data.logoUrl) {
                         document.getElementById('brandLogoUrlInput').value = data.logoUrl;
-                        document.getElementById('sidebarLogoCircle').innerHTML = `<img src="${data.logoUrl}" />`;
-                        document.getElementById('previewLogo').innerHTML = `<img src="${data.logoUrl}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" />`;
+                        document.getElementById('previewLogoCircle').innerHTML = `<img src="${data.logoUrl}" />`;
                     }
                     if(data.theme) {
                         document.documentElement.setAttribute('data-theme', data.theme);
                     }
                 }
             });
-
-            db.collection('settings').doc('seo').get().then((doc) => {
-                if(doc.exists) {
-                    const seo = doc.data();
-                    document.getElementById('seoTitleInput').value = seo.seoTitle || '';
-                    document.getElementById('seoDescInput').value = seo.seoDesc || '';
-                    document.getElementById('seoKeywordsInput').value = seo.seoKeywords || '';
-                    if(seo.seoTitle) document.getElementById('metaTitleTag').textContent = seo.seoTitle;
-                }
-            });
-
             loadCourses();
         }
     </script>
